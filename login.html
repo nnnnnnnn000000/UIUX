@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>ログイン | 数学学習サイト</title>
+  <style>
+    :root {
+      --main-color: #2a6ebb;
+      --bg-color: #f3f6fb;
+      --error-color: #e63946;
+      --border-radius: 10px;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg-color);
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: var(--main-color);
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .tab-buttons {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .tab-buttons button {
+      padding: 10px 20px;
+      margin: 0 5px;
+      background: white;
+      border: 2px solid var(--main-color);
+      color: var(--main-color);
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .tab-buttons button.active {
+      background: var(--main-color);
+      color: white;
+    }
+
+    .form-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 0 0 var(--border-radius) var(--border-radius);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      display: none;
+    }
+
+    .form-box.active {
+      display: block;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      transition: border-color 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--main-color);
+      outline: none;
+    }
+
+    button.submit-btn {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      background: var(--main-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button.submit-btn:hover {
+      background: #1d5292;
+    }
+
+    .error {
+      color: var(--error-color);
+      font-size: 13px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>数学学習サイト</h1>
+
+  <div class="tab-buttons">
+    <button class="active" onclick="switchTab('login')">ログイン</button>
+    <button onclick="switchTab('register')">新規登録</button>
+  </div>
+
+  <!-- ログイン -->
+  <div id="loginBox" class="form-box active">
+    <label for="loginEmail">メールアドレス</label>
+    <input type="email" id="loginEmail" placeholder="○○@reitaku.jp" required />
+
+    <label for="loginPassword">パスワード</label>
+    <input type="password" id="loginPassword" placeholder="パスワード" required />
+
+    <div id="loginError" class="error"></div>
+    <button class="submit-btn" onclick="login()">ログイン</button>
+
+    <p><a href="reset_password.html">パスワードを忘れた方はこちら</a></p>
+  </div>
+
+
+  <!-- 新規登録 -->
+  <div id="registerBox" class="form-box">
+    <label for="registerEmail">メールアドレス</label>
+    <input type="email" id="registerEmail" placeholder="○○@reitaku.jp" required />
+
+    <label for="registerPassword">パスワード</label>
+    <input type="password" id="registerPassword" placeholder="パスワード（6文字以上）" required />
+
+    <label for="registerPassword2">パスワード再入力</label>
+    <input type="password" id="registerPassword2" placeholder="パスワード再入力" required />
+
+    <div id="registerError" class="error"></div>
+    <button class="submit-btn" onclick="register()">登録</button>
+  </div>
+
+  <script>
+    function switchTab(tab) {
+      const loginBtn = document.querySelectorAll('.tab-buttons button')[0];
+      const registerBtn = document.querySelectorAll('.tab-buttons button')[1];
+      const loginBox = document.getElementById('loginBox');
+      const registerBox = document.getElementById('registerBox');
+
+      if (tab === 'login') {
+        loginBtn.classList.add('active');
+        registerBtn.classList.remove('active');
+        loginBox.classList.add('active');
+        registerBox.classList.remove('active');
+      } else {
+        registerBtn.classList.add('active');
+        loginBtn.classList.remove('active');
+        registerBox.classList.add('active');
+        loginBox.classList.remove('active');
+      }
+    }
+
+    function isValidReitakuEmail(email) {
+      return email.endsWith('@reitaku.jp');
+    }
+
+    function register() {
+        const email = document.getElementById('registerEmail').value.trim();
+        const pass = document.getElementById('registerPassword').value;
+        const pass2 = document.getElementById('registerPassword2').value;
+        const error = document.getElementById('registerError');
+        error.textContent = '';
+
+        if (!isValidReitakuEmail(email)) {
+            error.textContent = 'reitaku.jpのメールアドレスを入力してください';
+            return;
+        }
+        if (pass.length < 6) {
+        error.textContent = 'パスワードは6文字以上です';
+            return;
+        }
+        if (pass !== pass2) {
+            error.textContent = 'パスワードが一致しません';
+            return;
+        }
+
+        // 保存してすぐログイン
+        localStorage.setItem(email, pass);
+        window.location.href = 'home.html';
+        }
+        
+    function login() {
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+
+        const savedPassword = localStorage.getItem(email);
+
+        if (savedPassword === password) {
+          // 正常にログインできたらログイン状態を記録
+          localStorage.setItem('loggedInUser', email);
+          window.location.href = 'home.html';
+        } else {
+          document.getElementById('loginError').textContent = 'メールアドレスまたはパスワードが間違っています';
+        }
+    }
+    
+  </script>
+</body>
+</html>

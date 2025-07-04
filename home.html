@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ホーム | 数学学習サイト</title>
+  <style>
+    :root {
+      --blue: #e6f0ff;
+      --green: #e6ffee;
+      --main-color: #2a6ebb;
+      --mode-button-bg: white;
+      --mode-button-text: #2a6ebb;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 30px;
+      transition: background-color 0.3s ease;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--main-color);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 0 20px;
+    }
+
+    .mode-toggle {
+      text-align: center;
+      margin: 30px auto;
+    }
+
+    .mode-toggle button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      margin-bottom: 50px;
+      border: 2px solid var(--main-color);
+      background: var(--mode-button-bg);
+      color: var(--mode-button-text);
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .mode-toggle button.active {
+      background: var(--main-color);
+      color: white;
+    }
+
+    .subject-group {
+      margin-bottom: 30px;
+      padding: 0 20px;
+    }
+
+    .subject-group h2 {
+      color: var(--main-color);
+      border-bottom: 1px solid #ccc;
+    }
+
+    .subject-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .subject-list li {
+      background: white;
+      border: 1px solid #ccc;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .subject-list li:hover {
+      background: #dceeff;
+    }
+
+    .user-info {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .logout {
+      background: none;
+      border: none;
+      color: #c00;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px; /* 春と秋の間のスペース */
+    margin-top: 40px;
+    }
+
+    .semester-box {
+      background-color: #ffffff;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      padding: 20px 30px;
+      width: 300px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .semester-box h2 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .semester-box ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .semester-box li {
+      margin: 8px 0;
+    }
+
+    .semester-box a {
+      text-decoration: none;
+      color: #0077cc;
+      font-weight: bold;
+    }
+
+    .semester-box a:hover {
+      text-decoration: underline;
+    }
+
+    .subject-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px; /* 春と秋の間隔 */
+      margin-top: 0px;
+    }
+
+    .subject-group {
+    background-color: #fff;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      padding: 20px 30px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="user-info">
+      ようこそ！<span id="userEmail"></span>
+    </div>
+    <button class="logout" onclick="logout()">ログアウト</button>
+  </div>
+
+  <h1>数学学習サイト</h1>
+
+<div class="mode-toggle">
+  <button id="explanationBtn" class="active" onclick="setMode('解説')">解説</button>
+  <button id="problemBtn" onclick="setMode('問題')">問題</button>
+</div>
+
+<div class="subject-wrapper">
+
+  <div class="subject-group">
+    <h2>春学期科目</h2>
+    <ul class="subject-list">
+      <li onclick="goToSubject('基礎数学')">基礎数学</li>
+      <li onclick="goToSubject('微分積分')">微分積分</li>
+      <li onclick="goToSubject('統計学基礎')">統計学基礎</li>
+      <li onclick="goToSubject('線形代数（基礎）')">線形代数（基礎）</li>
+    </ul>
+  </div>
+
+  <div class="subject-group">
+    <h2>秋学期科目</h2>
+    <ul class="subject-list">
+      <li onclick="goToSubject('応用微分積分')">応用微分積分</li>
+      <li onclick="goToSubject('幾何学')">幾何学</li>
+      <li onclick="goToSubject('応用線形代数')">応用線形代数</li>
+      <li onclick="goToSubject('統計学')">統計学</li>
+    </ul>
+  </div>
+
+</div>
+
+  <script>
+    // 表示用メールアドレス取得
+    const userEmail = Object.keys(localStorage)[0] || '';
+    document.getElementById('userEmail').textContent = userEmail;
+
+    // モード切り替え & 背景変更
+    let currentMode = '解説';
+    function setMode(mode) {
+      currentMode = mode;
+      document.body.style.backgroundColor = (mode === '解説') ? 'var(--blue)' : 'var(--green)';
+      document.getElementById('explanationBtn').classList.toggle('active', mode === '解説');
+      document.getElementById('problemBtn').classList.toggle('active', mode === '問題');
+    }
+
+    function goToSubject(subject) {
+      const url = `subject.html?subject=${encodeURIComponent(subject)}&mode=${encodeURIComponent(currentMode)}`;
+      window.location.href = url;
+    }
+
+    function logout() {
+      localStorage.removeItem('loggedInUser'); // 登録データは消さず、ログイン情報だけ消す！
+      window.location.href = 'login.html';
+    }
+
+    // 初期色設定
+    setMode(currentMode);
+  </script>
+</body>
+</html>

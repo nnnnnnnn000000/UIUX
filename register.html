@@ -1,0 +1,25 @@
+<script>
+  function register() {
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+
+    if (!email || !password) {
+      alert('メールとパスワードを入力してください');
+      return;
+    }
+
+    // すでに登録されているかチェック
+    if (localStorage.getItem(email)) {
+      alert('このメールアドレスはすでに登録されています');
+      return;
+    }
+
+    // ユーザー登録
+    localStorage.setItem(email, password);
+
+    // ログイン状態として記録
+    localStorage.setItem('loggedInUser', email);
+
+    window.location.href = 'home.html';
+  }
+</script>
