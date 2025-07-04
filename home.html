@@ -17,6 +17,7 @@
       margin: 0;
       padding: 30px;
       transition: background-color 0.3s ease;
+      background-color: var(--blue);
     }
 
     h1 {
@@ -86,24 +87,27 @@
       background: #dceeff;
     }
 
-    .user-info {
-      font-size: 14px;
-      color: #555;
+    .logout-btn {
+      background-color: #ffdcdd;
+      color: #510f17;
+      border: 1px solid #ffdcdd;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
     }
 
-    .logout {
-      background: none;
-      border: none;
-      color: #c00;
-      cursor: pointer;
-      font-weight: bold;
+    .logout-btn:hover {
+      background-color: #b5d9ff;
     }
+
     .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px; /* 春と秋の間のスペース */
-    margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      margin-top: 40px;
     }
 
     .semester-box {
@@ -116,41 +120,16 @@
       text-align: center;
     }
 
-    .semester-box h2 {
-      margin-bottom: 10px;
-      color: #333;
-    }
-
-    .semester-box ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .semester-box li {
-      margin: 8px 0;
-    }
-
-    .semester-box a {
-      text-decoration: none;
-      color: #0077cc;
-      font-weight: bold;
-    }
-
-    .semester-box a:hover {
-      text-decoration: underline;
-    }
-
     .subject-wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 40px; /* 春と秋の間隔 */
+      gap: 40px;
       margin-top: 0px;
     }
 
     .subject-group {
-    background-color: #fff;
+      background-color: #fff;
       border: 2px solid #ccc;
       border-radius: 12px;
       padding: 20px 30px;
@@ -160,58 +139,58 @@
     }
 
   </style>
+
 </head>
 <body>
   <div class="header">
-    <div class="user-info">
-      ようこそ！<span id="userEmail"></span>
-    </div>
-    <button class="logout" onclick="logout()">ログアウト</button>
+    <div class="user-info"></div> <!-- ←ここは何も表示しない -->
+    <button class="logout-btn" onclick="logout()">ログアウト</button>
   </div>
 
   <h1>数学学習サイト</h1>
 
-<div class="mode-toggle">
-  <button id="explanationBtn" class="active" onclick="setMode('解説')">解説</button>
-  <button id="problemBtn" onclick="setMode('問題')">問題</button>
-</div>
-
-<div class="subject-wrapper">
-
-  <div class="subject-group">
-    <h2>春学期科目</h2>
-    <ul class="subject-list">
-      <li onclick="goToSubject('基礎数学')">基礎数学</li>
-      <li onclick="goToSubject('微分積分')">微分積分</li>
-      <li onclick="goToSubject('統計学基礎')">統計学基礎</li>
-      <li onclick="goToSubject('線形代数（基礎）')">線形代数（基礎）</li>
-    </ul>
+  <div class="mode-toggle">
+    <button id="explanationBtn" class="active" onclick="setMode('解説')">解説</button>
+    <button id="problemBtn" onclick="setMode('問題')">問題</button>
   </div>
 
-  <div class="subject-group">
-    <h2>秋学期科目</h2>
-    <ul class="subject-list">
-      <li onclick="goToSubject('応用微分積分')">応用微分積分</li>
-      <li onclick="goToSubject('幾何学')">幾何学</li>
-      <li onclick="goToSubject('応用線形代数')">応用線形代数</li>
-      <li onclick="goToSubject('統計学')">統計学</li>
-    </ul>
-  </div>
+  <div class="subject-wrapper">
+    <div class="subject-group">
+      <h2>春学期科目</h2>
+      <ul class="subject-list">
+        <li onclick="goToSubject('基礎数学')">基礎数学</li>
+        <li onclick="goToSubject('微分積分')">微分積分</li>
+        <li onclick="goToSubject('統計学基礎')">統計学基礎</li>
+        <li onclick="goToSubject('線形代数（基礎）')">線形代数（基礎）</li>
+      </ul>
+    </div>
 
-</div>
+    <div class="subject-group">
+      <h2>秋学期科目</h2>
+      <ul class="subject-list">
+        <li onclick="goToSubject('応用微分積分')">応用微分積分</li>
+        <li onclick="goToSubject('幾何学')">幾何学</li>
+        <li onclick="goToSubject('応用線形代数')">応用線形代数</li>
+        <li onclick="goToSubject('統計学')">統計学</li>
+      </ul>
+    </div>
+  </div>
 
   <script>
-    // 表示用メールアドレス取得
-    const userEmail = Object.keys(localStorage)[0] || '';
-    document.getElementById('userEmail').textContent = userEmail;
 
-    // モード切り替え & 背景変更
     let currentMode = '解説';
+
     function setMode(mode) {
       currentMode = mode;
       document.body.style.backgroundColor = (mode === '解説') ? 'var(--blue)' : 'var(--green)';
-      document.getElementById('explanationBtn').classList.toggle('active', mode === '解説');
-      document.getElementById('problemBtn').classList.toggle('active', mode === '問題');
+
+      const explanationBtn = document.getElementById('explanationBtn');
+      const problemBtn = document.getElementById('problemBtn');
+
+      if (explanationBtn && problemBtn) {
+        explanationBtn.classList.toggle('active', mode === '解説');
+        problemBtn.classList.toggle('active', mode === '問題');
+      }
     }
 
     function goToSubject(subject) {
@@ -220,12 +199,16 @@
     }
 
     function logout() {
-      localStorage.removeItem('loggedInUser'); // 登録データは消さず、ログイン情報だけ消す！
+      localStorage.removeItem('loggedInUser');
       window.location.href = 'login.html';
     }
 
-    // 初期色設定
-    setMode(currentMode);
+    document.addEventListener('DOMContentLoaded', () => {
+      if (emailSpan) {
+        emailSpan.textContent = userEmail;
+      }
+      setMode('解説');
+    });
   </script>
 </body>
 </html>
