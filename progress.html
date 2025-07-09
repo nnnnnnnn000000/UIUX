@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>進捗状況</title>
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    padding: 30px;
+    background-color: #e6f0ff;
+    color: #2a6ebb;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  table {
+    width: 90%;
+    max-width: 700px;
+    margin: 0 auto;
+    border-collapse: collapse;
+  }
+  th, td {
+    border: 2px solid #2a6ebb;
+    padding: 10px;
+    text-align: center;
+  }
+  th {
+    background-color: #2a6ebb;
+    color: white;
+  }
+  td.unattempted {
+    color: #999;
+  }
+</style>
+</head>
+<body>
+
+<h1>進捗状況</h1>
+
+<table id="progressTable">
+  <thead>
+    <tr>
+      <th>単元</th>
+      <th>一回目の結果</th>
+      <th>最終結果</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- JavaScriptで生成 -->
+  </tbody>
+</table>
+
+<script>
+const subject = '基礎数学'; // 必要に応じて動的に変更も
+
+const units = [
+  "グラフと三角関数",
+  "指数と対数",
+  "数の定義",
+  "微分法の基礎",
+  "積分法の基礎",
+  "微分積分",
+  "ベクトルの基礎",
+  "行列"
+];
+
+function loadProgress(subject, unit) {
+  const key = `progress_${subject}_${unit}`;
+  const dataStr = localStorage.getItem(key);
+  if (!dataStr) return null;
+  try {
+    return JSON.parse(dataStr);
+  } catch {
+    return null;
+  }
+}
+
+function createProgressTable(subject, units) {
+  const tbody = document.querySelector('#progressTable tbody');
+  tbody.innerHTML = '';
+
+  units.forEach(unit => {
+    const data = loadProgress(subject, unit);
+    const tr = document.createElement('tr');
+
+    const tdUnit = document.createElement('td');
+    tdUnit.textContent = unit;
+
+    const tdFirst = document.createElement('td');
+    if (data?.firstAttempt) {
+      tdFirst.textContent = `${data.firstAttempt.correct} / ${data.firstAttempt.total} (${data.firstAttempt.rate}%)`;
+    } else {
+      tdFirst.textContent = '未受験';
+      tdFirst.classList.add('unattempted');
+    }
+
+    const tdFinal = document.createElement('td');
+    if (data?.finalAttempt) {
+      tdFinal.textContent = `${data.finalAttempt.correct} / ${data.finalAttempt.total} (${data.finalAttempt.rate}%)`;
+    } else {
+      tdFinal.textContent = '未受験';
+      tdFinal.classList.add('unattempted');
+    }
+
+    tr.appendChild(tdUnit);
+    tr.appendChild(tdFirst);
+    tr.appendChild(tdFinal);
+    tbody.appendChild(tr);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  createProgressTable(subject, units);
+});
+</script>
+
+</body>
+</html>
