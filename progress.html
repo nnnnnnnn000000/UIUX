@@ -2,141 +2,158 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>進捗状況 - 基礎数学</title>
+  <title>進捗状況</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
+      background: #f7f9ff;
       padding: 30px;
-      background: #e6f0ff;
-      color: #2a6ebb;
+      text-align: center;
     }
 
     h1 {
-      text-align: center;
+      color: #2a6ebb;
+    }
+
+    select {
+      padding: 10px 20px;
+      font-size: 16px;
       margin-bottom: 30px;
     }
 
     table {
-      width: 90%;
-      max-width: 700px;
-      margin: auto;
+      margin: 0 auto;
       border-collapse: collapse;
+      width: 80%;
+      background: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     th, td {
-      border: 2px solid #2a6ebb;
-      padding: 10px;
-      text-align: center;
+      padding: 12px 18px;
+      border: 1px solid #ccc;
     }
 
     th {
-      background: #2a6ebb;
+      background-color: #2a6ebb;
       color: white;
     }
 
-    td.unattempted {
-      color: #aaa;
+    tr:nth-child(even) {
+      background-color: #f2f8ff;
     }
 
-    .back-btn {
-      display: block;
-      margin: 30px auto;
-      padding: 10px 20px;
-      font-weight: bold;
-      background: white;
-      border: 2px solid #2a6ebb;
-      border-radius: 8px;
-      color: #2a6ebb;
-      cursor: pointer;
+    .no-data {
+      color: gray;
     }
+    
+    select {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: 2px solid #2a6ebb;
+  border-radius: 6px;
+  background: white;
+  color: #2a6ebb;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="%232a6ebb"><polygon points="0,0 12,0 6,6"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+  transition: background-color 0.2s, color 0.2s;
+}
 
-    .back-btn:hover {
-      background: #2a6ebb;
-      color: white;
-    }
+select:hover,
+select:focus {
+  background-color: #2a6ebb;
+  color: white;
+  outline: none;
+  /* ▼マークの色はfillで指定しているので変わりません */
+}
+
   </style>
 </head>
 <body>
+  <h1>進捗状況</h1>
 
-<h1>📊 基礎数学の進捗状況</h1>
+  <select id="subjectSelect">
+    <option value="基礎数学">基礎数学</option>
+    <option value="微分積分">微分積分</option>
+    <option value="統計学基礎">統計学基礎</option>
+    <option value="線形代数（基礎）">線形代数（基礎）</option>
+    <option value="応用微分積分">応用微分積分</option>
+    <option value="幾何学">幾何学</option>
+    <option value="応用線形代数">応用線形代数</option>
+    <option value="統計学">統計学</option>
+  </select>
 
-<table>
-  <thead>
-    <tr>
-      <th>単元</th>
-      <th>一回目</th>
-      <th>最終結果</th>
-    </tr>
-  </thead>
-  <tbody id="progress-body">
-    <!-- JSで生成 -->
-  </tbody>
-</table>
+  <table id="progressTable">
+    <thead>
+      <tr>
+        <th>単元</th>
+        <th>初回</th>
+        <th>最終</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <!-- ここにデータが追加される -->
+    </tbody>
+  </table>
 
-<button class="back-btn" onclick="history.back()">← ホームに戻る</button>
+  <script>
+    const subjectUnits = {
+      '基礎数学': ['グラフと三角関数', '指数と対数', '数の定義', '微分法の基礎', '積分法の基礎', '微分積分', 'ベクトルの基礎', '行列'],
+      '微分積分': ['極限と連続', '導関数と応用', '積分と面積'],
+      '統計学基礎': ['平均・分散・標準偏差', 'ヒストグラム・度数分布'],
+      '線形代数（基礎）': ['ベクトル空間', '行列の演算'],
+      '応用微分積分': ['偏微分', '重積分'],
+      '幾何学': ['図形と計量', '空間図形'],
+      '応用線形代数': ['固有値・固有ベクトル', '対角化'],
+      '統計学': ['確率分布', '推定と検定']
+    };
 
-<script>
-  const subject = "基礎数学";
+    const tableBody = document.getElementById('tableBody');
+    const subjectSelect = document.getElementById('subjectSelect');
 
-  const units = [
-    "グラフと三角関数",
-    "指数と対数",
-    "数の定義",
-    "微分法の基礎",
-    "積分法の基礎",
-    "微分積分",
-    "ベクトルの基礎",
-    "行列"
-  ];
+    function loadProgress(subject) {
+      const units = subjectUnits[subject];
+      tableBody.innerHTML = '';
 
-  function loadProgress(subject, unit) {
-    const key = `progress_${subject}_${unit}`;
-    const dataStr = localStorage.getItem(key);
-    if (!dataStr) return null;
-    try {
-      return JSON.parse(dataStr);
-    } catch {
-      return null;
+      units.forEach(unit => {
+        const key = `progress_${subject}_${unit}`;
+        const progress = JSON.parse(localStorage.getItem(key) || '{}');
+
+        const row = document.createElement('tr');
+
+        const unitCell = document.createElement('td');
+        unitCell.textContent = unit;
+
+        const first = progress.firstAttempt 
+          ? `${progress.firstAttempt.correct} / ${progress.firstAttempt.total}（${progress.firstAttempt.rate}%）` 
+          : '<span class="no-data">未実施</span>';
+
+        const final = progress.finalAttempt 
+          ? `${progress.finalAttempt.correct} / ${progress.finalAttempt.total}（${progress.finalAttempt.rate}%）` 
+          : '<span class="no-data">未実施</span>';
+
+        row.innerHTML = `
+          <td>${unit}</td>
+          <td>${first}</td>
+          <td>${final}</td>
+        `;
+
+        tableBody.appendChild(row);
+      });
     }
-  }
 
-  function renderProgressTable() {
-    const tbody = document.getElementById("progress-body");
-    tbody.innerHTML = "";
-
-    units.forEach(unit => {
-      const data = loadProgress(subject, unit);
-      const tr = document.createElement("tr");
-
-      const tdUnit = document.createElement("td");
-      tdUnit.textContent = unit;
-
-      const tdFirst = document.createElement("td");
-      if (data?.firstAttempt) {
-        tdFirst.textContent = `${data.firstAttempt.correct} / ${data.firstAttempt.total} (${data.firstAttempt.rate}%)`;
-      } else {
-        tdFirst.textContent = "未受験";
-        tdFirst.classList.add("unattempted");
-      }
-
-      const tdFinal = document.createElement("td");
-      if (data?.finalAttempt) {
-        tdFinal.textContent = `${data.finalAttempt.correct} / ${data.finalAttempt.total} (${data.finalAttempt.rate}%)`;
-      } else {
-        tdFinal.textContent = "未受験";
-        tdFinal.classList.add("unattempted");
-      }
-
-      tr.appendChild(tdUnit);
-      tr.appendChild(tdFirst);
-      tr.appendChild(tdFinal);
-
-      tbody.appendChild(tr);
+    subjectSelect.addEventListener('change', () => {
+      loadProgress(subjectSelect.value);
     });
-  }
 
-  document.addEventListener("DOMContentLoaded", renderProgressTable);
-</script>
-
+    // 最初に1つ目の科目で読み込む
+    loadProgress(subjectSelect.value);
+  </script>
 </body>
 </html>

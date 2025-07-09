@@ -117,12 +117,14 @@
       const stored = JSON.parse(localStorage.getItem(key) || '{}');
       const rate = total > 0 ? ((correct / total) * 100).toFixed(1) : '0.0';
 
-      if (isRetryMode) {
-        stored.finalAttempt = { correct, total, rate };
-      } else {
+      // ✅ 初回結果は「未保存の場合のみ保存」
+      if (!stored.firstAttempt && !isRetryMode) {
         stored.firstAttempt = { correct, total, rate };
-        stored.finalAttempt = { correct, total, rate }; // 初回＝最終にも保存（上書きされる可能性あり）
+
       }
+
+      // ✅ 最終結果は毎回更新
+      stored.finalAttempt = { correct, total, rate };
 
       localStorage.setItem(key, JSON.stringify(stored));
     }
@@ -192,6 +194,7 @@
         <div style="text-align:center; margin-top:20px;">
           <button id="retry">間違えた問題だけ再チャレンジ</button>
           <button id="go-explanation" style="margin-left: 10px;">この単元の解説を見る</button>
+          <button id="go-progress" style="margin-left: 10px;">進捗状況を見る</button>
         </div>
       `;
 
@@ -242,6 +245,12 @@
   document.getElementById('go-explanation').addEventListener('click', () => {
     window.location.href = '../解説/graph.html';
   });
+  
+   // 🔽 進捗ボタン（新しく追加）
+  document.getElementById('go-progress').addEventListener('click', () => {
+    window.location.href = '../progress.html';  // ←必要に応じてパスを調整
+  });
+
 }
 
 
