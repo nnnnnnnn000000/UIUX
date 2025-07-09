@@ -3,21 +3,213 @@
 <head>
   <meta charset="UTF-8">
   <title>グラフと三角関数 - 問題</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --blue: #e6f0ff;
+      --green: #e6ffee;
+      --main-color: #2a6ebb;
+      --mode-button-bg: white;
+      --mode-button-text: #2a6ebb;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 30px;
+      background-color: var(--green);
+    }
+
+    h2 {
+      text-align: center;
+      color: var(--main-color);
+    }
+
+    .quiz-container {
+      background: white;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 600px;
+      margin: 40px auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: 2px solid var(--main-color);
+      background: var(--mode-button-bg);
+      color: var(--mode-button-text);
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover:not(:disabled) {
+      background: var(--main-color);
+      color: white;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .correct {
+      color: green;
+    }
+
+    .incorrect {
+      color: red;
+    }
+
+    #next-btn {
+      margin-top: 30px;
+      display: none;
+    }
+  </style>
 </head>
 <body>
-
+  
   <h2>グラフと三角関数：確認問題</h2>
   <div class="quiz-container">
-    <p>問題1: y = sin(x) のグラフの周期は？</p>
-    <ul>
-      <li><button>π</button></li>
-      <li><button>2π</button></li>
-      <li><button>3π</button></li>
-      <li><button>4π</button></li>
-    </ul>
-    <!-- 必要なら正解表示や次の問題ボタンも -->
+    <p id="question"></p>
+    <ul id="choices"></ul>
+    <p id="result"></p>
+    <button id="next-btn" onclick="nextQuestion()">次へ ▶</button>
   </div>
 
+  <script>
+    const originalQuestions = [
+      {
+        text: "y = sin(x) のグラフの周期は？",
+        choices: ["π", "2π", "3π", "4π"],
+        correctIndex: 1
+      },
+      {
+        text: "y = cos(x) の最大値は？",
+        choices: ["1", "0", "-1", "2"],
+        correctIndex: 0
+      },
+      {
+        text: "y = tan(x) の定義されない点の一つは？",
+        choices: ["π/2", "0", "π", "2π"],
+        correctIndex: 0
+      }
+    ];
+
+    let questions = [...originalQuestions];
+    let currentQuestionIndex = 0;
+    let correctCount = 0;
+    let totalCount = 0;
+    let incorrectQuestions = [];
+    let isRetryMode = false;
+
+    function renderQuestion() {
+      const q = questions[currentQuestionIndex];
+      document.getElementById('question').textContent = `問題${currentQuestionIndex + 1}: ${q.text}`;
+      const choicesEl = document.getElementById('choices');
+      choicesEl.innerHTML = '';
+      document.getElementById('result').textContent = '';
+      document.getElementById('result').className = '';
+      document.getElementById('next-btn').style.display = 'none';
+
+      q.choices.forEach((choice, index) => {
+        const li = document.createElement('li');
+        const btn = document.createElement('button');
+        btn.textContent = choice;
+        btn.onclick = () => checkAnswer(index === q.correctIndex);
+        li.appendChild(btn);
+        choicesEl.appendChild(li);
+      });
+    }
+
+    function checkAnswer(isCorrect) {
+      totalCount++;
+
+      const result = document.getElementById('result');
+      const nextBtn = document.getElementById('next-btn');
+      const buttons = document.querySelectorAll('#choices button');
+
+      if (!isCorrect) {
+        incorrectQuestions.push(questions[currentQuestionIndex]);  // 毎回記録
+      }
+
+      if (isCorrect) {
+        result.textContent = '正解！よくできました！';
+        result.className = 'correct';
+        correctCount++;
+      } else {
+        result.textContent = '不正解です。もう一度確認してみましょう。';
+        result.className = 'incorrect';
+      }
+
+      buttons.forEach(btn => btn.disabled = true);
+      nextBtn.style.display = 'inline-block';
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < questions.length) {
+        renderQuestion();
+      } else {
+        showCompletion();
+      }
+    }
+
+    function showCompletion() {
+      const rate = totalCount > 0 ? ((correctCount / totalCount) * 100).toFixed(1) : "0.0";
+      const container = document.querySelector('.quiz-container');
+      container.innerHTML = `
+        <p style="font-size: 20px; font-weight: bold; color: var(--main-color); text-align: center;">
+          全ての問題が終了しました。お疲れさまでした！
+        </p>
+        <div style="text-align: center; font-size: 18px;">
+          <p>正解数：<strong>${correctCount}</strong> / <strong>${totalCount}</strong></p>
+          <p>正答率：<strong>${rate}%</strong></p>
+        </div>
+        <div style="text-align: center; margin-top: 30px;">
+          <button onclick="startRetry()">間違えた問題だけ再チャレンジ</button>
+          <button onclick="location.href='UIUX/解説/graph.html'">この単元の解説を見る</button>
+        </div>
+      `;
+      isRetryMode = false; // モード終了
+    }
+
+    function startRetry() {
+      if (incorrectQuestions.length === 0) {
+        alert('全問正解でした！再チャレンジする問題はありません。');
+        return;
+      }
+
+      // 再チャレンジ問題だけに絞る
+      questions = [...incorrectQuestions];
+      incorrectQuestions = [];
+      currentQuestionIndex = 0;
+      correctCount = 0;
+      totalCount = 0;
+      isRetryMode = true;
+
+      renderQuestion();
+    }
+
+    // 最初の問題を表示
+    renderQuestion();
+  </script>
 </body>
 </html>
