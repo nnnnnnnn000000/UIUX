@@ -9,7 +9,7 @@
       background: #f2f9ff;
       margin: 0;
       padding: 20px;
-      text-align: center;
+      text-align:left;
     }
     h1 {
       color: #2a6ebb;
@@ -228,6 +228,10 @@ canvas {
   background: #eef6ff;
 }
 
+.question-link {
+  text-align: center; /* ← ボタンだけ中央寄せに */
+}
+
 .question-link button {
   padding: 10px 20px;
   border: 2px solid #2a6ebb;       /* --main-color */
@@ -271,6 +275,54 @@ canvas {
   color: white;
 }
 
+  .triangle-review {
+    padding: 20px;
+    background-color: #f9f9fc;
+    border-radius: 12px;
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .triangle-review h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+    color: #2a2a5a;
+  }
+
+  .triangle-review h3 {
+    font-size: 20px;
+    color: #333366;
+    margin-top: 24px;
+    border-left: 4px solid #6666cc;
+    padding-left: 10px;
+  }
+
+  .formula-block {
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+
+  .formula-block:nth-of-type(odd) {
+    background-color: #f0f0f8;
+  }
+
+  .formula-block:nth-of-type(even) {
+    background-color: #e7ecff;
+  }
+
+  .formula {
+    font-family: monospace;
+    padding: 4px 0;
+  }
+
+  .formula strong {
+    color: #222;
+    background-color: #e3e3ff;
+    padding: 2px 4px;
+    border-radius: 4px;
+  }
+
   </style>
 </head>
 
@@ -310,6 +362,47 @@ canvas {
   <h2>三角関数の復習</h2>
   <img src="rot.png" alt="回転図" class="full-img" />
   <img src="rot_calculation.png" alt="三角関数の関係" class="full-img" />
+  <h3>加法定理・差法定理</h3>
+  <div class="formula-block">
+    <div class="formula"><strong>sin(α ± β)</strong> = sinαcosβ ± cosαsinβ</div>
+    <div class="formula"><strong>cos(α ± β)</strong> = cosαcosβ ∓ sinαsinβ</div>
+    <div class="formula"><strong>tan(α ± β)</strong> = (tanα ± tanβ) / (1 ∓ tanαtanβ)</div>
+  </div>
+
+  <h3>2倍角の公式</h3>
+  <div class="formula-block">
+    <div class="formula"><strong>sin2θ</strong> = 2sinθcosθ</div>
+    <div class="formula"><strong>cos2θ</strong> = cos²θ − sin²θ = 2cos²θ − 1 = 1 − 2sin²θ</div>
+    <div class="formula"><strong>tan2θ</strong> = 2tanθ / (1 − tan²θ)</div>
+  </div>
+
+  <h3>半角の公式</h3>
+  <div class="formula-block">
+    <div class="formula"><strong>sin²θ</strong> = (1 − cos2θ) / 2</div>
+    <div class="formula"><strong>cos²θ</strong> = (1 + cos2θ) / 2</div>
+    <div class="formula"><strong>tan²θ</strong> = (1 − cos2θ) / (1 + cos2θ)</div>
+  </div>
+
+  <h3>積和・和積の公式</h3>
+  <div class="formula-block">
+    <div class="formula"><strong>sinαsinβ</strong> = ½[cos(α − β) − cos(α + β)]</div>
+    <div class="formula"><strong>cosαcosβ</strong> = ½[cos(α − β) + cos(α + β)]</div>
+    <div class="formula"><strong>sinαcosβ</strong> = ½[sin(α + β) + sin(α − β)]</div>
+  </div>
+
+  <h3>三角関数の合成</h3>
+  <div class="formula-block">
+    <div class="formula"><strong>a sinθ + b cosθ</strong> は以下の形に変形できる：</div>
+    <div class="formula"><strong>√(a² + b²) sin(θ + α)</strong></div>
+    <div class="formula">※ cosα = a / √(a² + b²), sinα = b / √(a² + b²)</div>
+  </div>
+
+  <h3>正弦定理・余弦定理</h3>
+  <div class="formula-block">
+    <div class="formula"><strong>正弦定理</strong>：a / sinA = b / sinB = c / sinC = 2R（Rは外接円の半径）</div>
+    <div class="formula"><strong>余弦定理</strong>：a² = b² + c² − 2bc cosA</div>
+  </div>
+
 </section>
 
 <!-- 単位円 -->
