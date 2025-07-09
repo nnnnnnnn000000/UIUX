@@ -2,36 +2,26 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>グラフと三角関数 - 問題</title>
+  <title>三角関数クイズ</title>
   <style>
-    :root {
-      --blue: #e6f0ff;
-      --green: #e6ffee;
-      --main-color: #2a6ebb;
-      --mode-button-bg: white;
-      --mode-button-text: #2a6ebb;
-    }
-
     body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
+      font-family: sans-serif;
       padding: 30px;
-      background-color: var(--green);
-    }
-
-    h2 {
-      text-align: center;
-      color: var(--main-color);
+      background: #e6ffee;
     }
 
     .quiz-container {
       background: white;
-      border: 2px solid #ccc;
-      border-radius: 12px;
       padding: 30px;
       max-width: 600px;
-      margin: 40px auto;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      margin: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2a6ebb;
     }
 
     ul {
@@ -39,23 +29,23 @@
       padding: 0;
       display: flex;
       flex-wrap: wrap;
-      gap: 15px;
       justify-content: center;
+      gap: 10px;
     }
 
     button {
       padding: 10px 20px;
       font-size: 16px;
-      border: 2px solid var(--main-color);
-      background: var(--mode-button-bg);
-      color: var(--mode-button-text);
-      border-radius: 6px;
-      cursor: pointer;
       font-weight: bold;
+      border: 2px solid #2a6ebb;
+      border-radius: 6px;
+      background: white;
+      color: #2a6ebb;
+      cursor: pointer;
     }
 
     button:hover:not(:disabled) {
-      background: var(--main-color);
+      background: #2a6ebb;
       color: white;
     }
 
@@ -65,39 +55,35 @@
     }
 
     #result {
+      text-align: center;
       margin-top: 20px;
-      font-weight: bold;
       font-size: 18px;
+      font-weight: bold;
     }
 
-    .correct {
-      color: green;
-    }
-
-    .incorrect {
-      color: red;
-    }
+    .correct { color: green; }
+    .incorrect { color: red; }
 
     #next-btn {
-      margin-top: 30px;
       display: none;
+      margin: 20px auto 0;
+      display: block;
     }
   </style>
 </head>
 <body>
-  
-  <h2>グラフと三角関数：確認問題</h2>
+  <h2>三角関数：確認問題</h2>
   <div class="quiz-container">
     <p id="question"></p>
     <ul id="choices"></ul>
     <p id="result"></p>
-    <button id="next-btn" onclick="nextQuestion()">次へ ▶</button>
+    <button id="next-btn">次へ ▶</button>
   </div>
 
   <script>
     const originalQuestions = [
       {
-        text: "y = sin(x) のグラフの周期は？",
+        text: "y = sin(x) の周期は？",
         choices: ["π", "2π", "3π", "4π"],
         correctIndex: 1
       },
@@ -107,109 +93,133 @@
         correctIndex: 0
       },
       {
-        text: "y = tan(x) の定義されない点の一つは？",
-        choices: ["π/2", "0", "π", "2π"],
-        correctIndex: 0
+        text: "y = tan(x) が定義されない点は？",
+        choices: ["0", "π", "π/2", "2π"],
+        correctIndex: 2
       }
     ];
 
     let questions = [...originalQuestions];
-    let currentQuestionIndex = 0;
-    let correctCount = 0;
-    let totalCount = 0;
+    let current = 0;
+    let correct = 0;
+    let total = 0;
     let incorrectQuestions = [];
+    let retryIncorrectQuestions = [];
     let isRetryMode = false;
 
-    function renderQuestion() {
-      const q = questions[currentQuestionIndex];
-      document.getElementById('question').textContent = `問題${currentQuestionIndex + 1}: ${q.text}`;
-      const choicesEl = document.getElementById('choices');
-      choicesEl.innerHTML = '';
-      document.getElementById('result').textContent = '';
-      document.getElementById('result').className = '';
-      document.getElementById('next-btn').style.display = 'none';
+    let questionEl = document.getElementById('question');
+    let choicesEl = document.getElementById('choices');
+    let resultEl = document.getElementById('result');
+    let nextBtn = document.getElementById('next-btn');
 
-      q.choices.forEach((choice, index) => {
+    nextBtn.addEventListener('click', next);
+
+    function render() {
+      const q = questions[current];
+      questionEl.textContent = `問題${current + 1}：${q.text}`;
+      resultEl.textContent = '';
+      resultEl.className = '';
+      nextBtn.style.display = 'none';
+      choicesEl.innerHTML = '';
+
+      q.choices.forEach((choice, i) => {
         const li = document.createElement('li');
         const btn = document.createElement('button');
         btn.textContent = choice;
-        btn.onclick = () => checkAnswer(index === q.correctIndex);
+        btn.onclick = () => check(i === q.correctIndex);
         li.appendChild(btn);
         choicesEl.appendChild(li);
       });
     }
 
-    function checkAnswer(isCorrect) {
-      totalCount++;
-
-      const result = document.getElementById('result');
-      const nextBtn = document.getElementById('next-btn');
-      const buttons = document.querySelectorAll('#choices button');
+    function check(isCorrect) {
+      total++;
+      const q = questions[current];
 
       if (!isCorrect) {
-        incorrectQuestions.push(questions[currentQuestionIndex]);  // 毎回記録
+        const target = isRetryMode ? retryIncorrectQuestions : incorrectQuestions;
+        if (!target.includes(q)) target.push(q);
       }
 
       if (isCorrect) {
-        result.textContent = '正解！よくできました！';
-        result.className = 'correct';
-        correctCount++;
+        correct++;
+        resultEl.textContent = '正解！';
+        resultEl.className = 'correct';
       } else {
-        result.textContent = '不正解です。もう一度確認してみましょう。';
-        result.className = 'incorrect';
+        resultEl.textContent = '不正解…';
+        resultEl.className = 'incorrect';
       }
 
-      buttons.forEach(btn => btn.disabled = true);
-      nextBtn.style.display = 'inline-block';
+      document.querySelectorAll('#choices button').forEach(btn => btn.disabled = true);
+      nextBtn.style.display = 'block';
     }
 
-    function nextQuestion() {
-      currentQuestionIndex++;
-      if (currentQuestionIndex < questions.length) {
-        renderQuestion();
+    function next() {
+      current++;
+      if (current < questions.length) {
+        render();
       } else {
-        showCompletion();
+        finish();
       }
     }
 
-    function showCompletion() {
-      const rate = totalCount > 0 ? ((correctCount / totalCount) * 100).toFixed(1) : "0.0";
+    function finish() {
+      const rate = ((correct / total) * 100).toFixed(1);
       const container = document.querySelector('.quiz-container');
       container.innerHTML = `
-        <p style="font-size: 20px; font-weight: bold; color: var(--main-color); text-align: center;">
-          全ての問題が終了しました。お疲れさまでした！
+        <p style="text-align:center; font-weight:bold; font-size:20px; color:#2a6ebb">
+          全ての問題が終了しました！
         </p>
-        <div style="text-align: center; font-size: 18px;">
-          <p>正解数：<strong>${correctCount}</strong> / <strong>${totalCount}</strong></p>
-          <p>正答率：<strong>${rate}%</strong></p>
+        <div style="text-align:center; font-size:18px;">
+          <p>正解数：${correct} / ${total}</p>
+          <p>正答率：${rate}%</p>
         </div>
-        <div style="text-align: center; margin-top: 30px;">
-          <button onclick="startRetry()">間違えた問題だけ再チャレンジ</button>
-          <button onclick="location.href='UIUX/解説/graph.html'">この単元の解説を見る</button>
+        <div style="text-align:center; margin-top:20px;">
+          <button id="retry">間違えた問題だけ再チャレンジ</button>
         </div>
       `;
-      isRetryMode = false; // モード終了
+
+      document.getElementById('retry').addEventListener('click', () => {
+        const retrySource = isRetryMode ? retryIncorrectQuestions : incorrectQuestions;
+        if (retrySource.length === 0) {
+          alert('再チャレンジする問題はありません！');
+          return;
+        }
+
+        questions = [...retrySource];
+        if (isRetryMode) {
+          retryIncorrectQuestions = [];
+        } else {
+          incorrectQuestions = [];
+        }
+
+        isRetryMode = true;
+        current = 0;
+        correct = 0;
+        total = 0;
+
+        // HTMLを元に戻す
+        document.querySelector('.quiz-container').innerHTML = `
+          <p id="question"></p>
+          <ul id="choices"></ul>
+          <p id="result"></p>
+          <button id="next-btn">次へ ▶</button>
+        `;
+
+        // 要素を再取得
+        questionEl = document.getElementById('question');
+        choicesEl = document.getElementById('choices');
+        resultEl = document.getElementById('result');
+        nextBtn = document.getElementById('next-btn');
+
+        // イベント再登録
+        nextBtn.addEventListener('click', next);
+
+        render();
+      });
     }
 
-    function startRetry() {
-      if (incorrectQuestions.length === 0) {
-        alert('全問正解でした！再チャレンジする問題はありません。');
-        return;
-      }
-
-      // 再チャレンジ問題だけに絞る
-      questions = [...incorrectQuestions];
-      incorrectQuestions = [];
-      currentQuestionIndex = 0;
-      correctCount = 0;
-      totalCount = 0;
-      isRetryMode = true;
-
-      renderQuestion();
-    }
-
-    // 最初の問題を表示
-    renderQuestion();
+    render();
   </script>
 </body>
 </html>
