@@ -112,6 +112,21 @@
     let resultEl = document.getElementById('result');
     let nextBtn = document.getElementById('next-btn');
 
+    function saveProgress(subject, unit, correct, total, isRetryMode) {
+      const key = `progress_${subject}_${unit}`;
+      const stored = JSON.parse(localStorage.getItem(key) || '{}');
+      const rate = total > 0 ? ((correct / total) * 100).toFixed(1) : '0.0';
+
+      if (isRetryMode) {
+        stored.finalAttempt = { correct, total, rate };
+      } else {
+        stored.firstAttempt = { correct, total, rate };
+        stored.finalAttempt = { correct, total, rate }; // 初回＝最終にも保存（上書きされる可能性あり）
+      }
+
+      localStorage.setItem(key, JSON.stringify(stored));
+    }
+
     nextBtn.addEventListener('click', next);
 
     function render() {
@@ -164,36 +179,39 @@
     }
 
     function finish() {
-  const rate = ((correct / total) * 100).toFixed(1);
-  const container = document.querySelector('.quiz-container');
-  container.innerHTML = `
-    <p style="text-align:center; font-weight:bold; font-size:20px; color:#2a6ebb">
-      全ての問題が終了しました！
-    </p>
-    <div style="text-align:center; font-size:18px;">
-      <p>正解数：${correct} / ${total}</p>
-      <p>正答率：${rate}%</p>
-    </div>
-    <div style="text-align:center; margin-top:20px;">
-      <button id="retry">間違えた問題だけ再チャレンジ</button>
-      <button id="go-explanation" style="margin-left: 10px;">この単元の解説を見る</button>
-    </div>
-  `;
+      const rate = ((correct / total) * 100).toFixed(1);
+      const container = document.querySelector('.quiz-container');
+      container.innerHTML = `
+        <p style="text-align:center; font-weight:bold; font-size:20px; color:#2a6ebb">
+          全ての問題が終了しました！
+        </p>
+        <div style="text-align:center; font-size:18px;">
+          <p>正解数：${correct} / ${total}</p>
+          <p>正答率：${rate}%</p>
+        </div>
+        <div style="text-align:center; margin-top:20px;">
+          <button id="retry">間違えた問題だけ再チャレンジ</button>
+          <button id="go-explanation" style="margin-left: 10px;">この単元の解説を見る</button>
+        </div>
+      `;
 
-  // 再チャレンジボタン
-  document.getElementById('retry').addEventListener('click', () => {
-    const retrySource = isRetryMode ? retryIncorrectQuestions : incorrectQuestions;
-    if (retrySource.length === 0) {
-      alert('再チャレンジする問題はありません！');
-      return;
-    }
+      saveProgress("基礎数学", "グラフと三角関数", correct, total, isRetryMode);
 
-    questions = [...retrySource];
-    if (isRetryMode) {
-      retryIncorrectQuestions = [];
-    } else {
-      incorrectQuestions = [];
-    }
+      // 再チャレンジボタン
+      document.getElementById('retry').addEventListener('click', () => {
+        const retrySource = isRetryMode ? retryIncorrectQuestions : incorrectQuestions;
+        if (retrySource.length === 0) {
+          alert('再チャレンジする問題はありません！');
+          return;
+        }
+
+        questions = [...retrySource];
+        if (isRetryMode) {
+          retryIncorrectQuestions = [];
+        } else {
+          incorrectQuestions = [];
+        }
+        
 
     isRetryMode = true;
     current = 0;
