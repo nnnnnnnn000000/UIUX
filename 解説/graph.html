@@ -323,6 +323,27 @@ canvas {
     border-radius: 4px;
   }
 
+.image-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.responsive-img {
+  width: 100%;
+  max-width: 400px; /* ← PC時の画像幅上限 */
+  height: auto;
+  border-radius: 8px;
+}
+
+@media (min-width: 768px) {
+  .responsive-img {
+    width: 45%; /* PC時に2枚横並びにする */
+  }
+}
+
   </style>
 </head>
 
@@ -360,9 +381,13 @@ canvas {
 <!-- 三角関数の復習 -->
 <section class="triangle-review">
   <h2>三角関数の復習</h2>
-  <img src="rot.png" alt="回転図" class="full-img" />
-  <img src="rot_calculation.png" alt="三角関数の関係" class="full-img" />
-  <h3>加法定理・差法定理</h3>
+
+  <div class="image-row">
+    <img src="rot.png" alt="回転図" class="responsive-img" />
+    <img src="rot_calculation.png" alt="三角関数の関係" class="responsive-img" />
+  </div>
+  
+    <h3>加法定理・差法定理</h3>
   <div class="formula-block">
     <div class="formula"><strong>sin(α ± β)</strong> = sinαcosβ ± cosαsinβ</div>
     <div class="formula"><strong>cos(α ± β)</strong> = cosαcosβ ∓ sinαsinβ</div>
