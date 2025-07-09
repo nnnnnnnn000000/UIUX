@@ -73,6 +73,30 @@ select:focus {
   /* ▼マークの色はfillで指定しているので変わりません */
 }
 
+.back-button {
+  position: fixed;
+  top: 20px;     /* ← ここを top に */
+  left: 20px;
+  z-index: 1000;
+}
+
+.back-button button {
+  padding: 10px 16px;
+  font-size: 14px;
+  background-color: white;
+  border: 1px solid #2a6ebb;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #2a6ebb;
+  font-weight: bold;
+  box-shadow: 0 2px 6px white;
+}
+
+.back-button button:hover {
+  background-color: #2a6ebb;
+  color: white;
+}
+
   </style>
 </head>
 <body>
@@ -155,5 +179,10 @@ select:focus {
     // 最初に1つ目の科目で読み込む
     loadProgress(subjectSelect.value);
   </script>
+
+<div class="back-button">
+  <button onclick="history.back()">← 戻る</button>
+</div>
+
 </body>
 </html>
