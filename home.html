@@ -193,10 +193,21 @@
       }
     }
 
-    function goToSubject(subject) {
-      const url = `subject.html?subject=${encodeURIComponent(subject)}&mode=${encodeURIComponent(currentMode)}`;
-      window.location.href = url;
+function goToSubject(subject) {
+  let url = '';
+
+  if (subject === '基礎数学') {
+    if (currentMode === '解説') {
+      url = '解説/graph.html';
+    } else if (currentMode === '問題') {
+      url = '問題/graph_quiz.html';
     }
+  } else {
+    url = `subject.html?subject=${encodeURIComponent(subject)}&mode=${encodeURIComponent(currentMode)}`;
+  }
+
+  window.location.href = url;
+}
 
     function logout() {
       localStorage.removeItem('loggedInUser');
