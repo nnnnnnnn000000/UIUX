@@ -228,6 +228,25 @@ canvas {
   background: #eef6ff;
 }
 
+.question-link button {
+  padding: 10px 20px;
+  border: 2px solid #2a6ebb;       /* --main-color */
+  background: white;                /* --mode-button-bg */
+  color: #2a6ebb;                  /* --mode-button-text */
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s;
+  margin-top: 40px;
+  display: inline-block;
+}
+
+.question-link button:hover {
+  background-color: #2a6ebb;
+  color: white;
+}
+
   </style>
 </head>
 
@@ -475,7 +494,7 @@ setMode('deg'); // 初期表示
 </script>
 
 <div class="question-link">
-  <button onclick="location.href='問題/graph_quiz.html'">問題を解く</button>
+  <button onclick="location.href='../問題/graph_quiz.html'">問題を解く</button>
 </div>
 
 

@@ -164,60 +164,68 @@
     }
 
     function finish() {
-      const rate = ((correct / total) * 100).toFixed(1);
-      const container = document.querySelector('.quiz-container');
-      container.innerHTML = `
-        <p style="text-align:center; font-weight:bold; font-size:20px; color:#2a6ebb">
-          全ての問題が終了しました！
-        </p>
-        <div style="text-align:center; font-size:18px;">
-          <p>正解数：${correct} / ${total}</p>
-          <p>正答率：${rate}%</p>
-        </div>
-        <div style="text-align:center; margin-top:20px;">
-          <button id="retry">間違えた問題だけ再チャレンジ</button>
-        </div>
-      `;
+  const rate = ((correct / total) * 100).toFixed(1);
+  const container = document.querySelector('.quiz-container');
+  container.innerHTML = `
+    <p style="text-align:center; font-weight:bold; font-size:20px; color:#2a6ebb">
+      全ての問題が終了しました！
+    </p>
+    <div style="text-align:center; font-size:18px;">
+      <p>正解数：${correct} / ${total}</p>
+      <p>正答率：${rate}%</p>
+    </div>
+    <div style="text-align:center; margin-top:20px;">
+      <button id="retry">間違えた問題だけ再チャレンジ</button>
+      <button id="go-explanation" style="margin-left: 10px;">この単元の解説を見る</button>
+    </div>
+  `;
 
-      document.getElementById('retry').addEventListener('click', () => {
-        const retrySource = isRetryMode ? retryIncorrectQuestions : incorrectQuestions;
-        if (retrySource.length === 0) {
-          alert('再チャレンジする問題はありません！');
-          return;
-        }
-
-        questions = [...retrySource];
-        if (isRetryMode) {
-          retryIncorrectQuestions = [];
-        } else {
-          incorrectQuestions = [];
-        }
-
-        isRetryMode = true;
-        current = 0;
-        correct = 0;
-        total = 0;
-
-        // HTMLを元に戻す
-        document.querySelector('.quiz-container').innerHTML = `
-          <p id="question"></p>
-          <ul id="choices"></ul>
-          <p id="result"></p>
-          <button id="next-btn">次へ ▶</button>
-        `;
-
-        // 要素を再取得
-        questionEl = document.getElementById('question');
-        choicesEl = document.getElementById('choices');
-        resultEl = document.getElementById('result');
-        nextBtn = document.getElementById('next-btn');
-
-        // イベント再登録
-        nextBtn.addEventListener('click', next);
-
-        render();
-      });
+  // 再チャレンジボタン
+  document.getElementById('retry').addEventListener('click', () => {
+    const retrySource = isRetryMode ? retryIncorrectQuestions : incorrectQuestions;
+    if (retrySource.length === 0) {
+      alert('再チャレンジする問題はありません！');
+      return;
     }
+
+    questions = [...retrySource];
+    if (isRetryMode) {
+      retryIncorrectQuestions = [];
+    } else {
+      incorrectQuestions = [];
+    }
+
+    isRetryMode = true;
+    current = 0;
+    correct = 0;
+    total = 0;
+
+    // HTMLを元に戻す
+    document.querySelector('.quiz-container').innerHTML = `
+      <p id="question"></p>
+      <ul id="choices"></ul>
+      <p id="result"></p>
+      <button id="next-btn">次へ ▶</button>
+    `;
+
+    // 要素を再取得
+    questionEl = document.getElementById('question');
+    choicesEl = document.getElementById('choices');
+    resultEl = document.getElementById('result');
+    nextBtn = document.getElementById('next-btn');
+
+    // イベント再登録
+    nextBtn.addEventListener('click', next);
+
+    render();
+  });
+
+  // 🔽 解説ボタン（これが追加部分！）
+  document.getElementById('go-explanation').addEventListener('click', () => {
+    window.location.href = '../解説/graph.html';
+  });
+}
+
 
     render();
   </script>
