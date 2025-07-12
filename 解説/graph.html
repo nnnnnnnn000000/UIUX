@@ -350,329 +350,404 @@ canvas {
 <body>
 
   <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-    <div class="menu-panel" id="menuPanel">
-  <h3>単元を選ぶ</h3>
-  <button onclick="showSection('graph')">グラフと三角関数</button>
-  <button onclick="showSection('exp')">指数と対数</button>
-  <button onclick="showSection('number')">数の定義</button>
-  <button onclick="showSection('diff')">微分法の基礎</button>
-  <button onclick="showSection('int')">積分法の基礎</button>
-  <button onclick="showSection('calculus')">微分積分</button>
-  <button onclick="showSection('vector')">ベクトルの基礎</button>
-  <button onclick="showSection('matrix')">行列</button>
-</div>
-
-
-<div id="section-graph" class="section"></div>
-
-    <!-- グラフの書き方 -->
-<section class="graph-section">
-  <h2>グラフの書き方</h2>
-  <div class="graph-container">
-    <img src="graph.png" alt="グラフの図" class="graph-img" />
-    <ul class="graph-description">
-      <li>① x軸、y軸、原点(O)を書く。</li>
-      <li>② 関数の特徴を捉える。</li>
-      <li>③ 点と点をつなげる。</li>
-    </ul>
+  <div class="menu-panel" id="menuPanel">
+    <h3>単元を選ぶ</h3>
+    <button onclick="showSection('graph')">グラフと三角関数</button>
+    <button onclick="showSection('exp')">指数と対数</button>
+    <button onclick="showSection('number')">数の定義</button>
+    <button onclick="showSection('diff')">微分法の基礎</button>
+    <button onclick="showSection('int')">積分法の基礎</button>
+    <button onclick="showSection('calculus')">微分積分</button>
+    <button onclick="showSection('vector')">ベクトルの基礎</button>
+    <button onclick="showSection('matrix')">行列</button>
   </div>
-</section>
 
-<!-- 三角関数の復習 -->
-<section class="triangle-review">
-  <h2>三角関数の復習</h2>
+  <!-- グラフと三角関数（idを付与し他の単元と同様に） -->
+  <section id="section-graph" class="section">
 
-  <div class="image-row">
-    <img src="rot.png" alt="回転図" class="responsive-img" />
-    <img src="rot_calculation.png" alt="三角関数の関係" class="responsive-img" />
-  </div>
+    <section class="graph-section">
+       <h2>グラフの書き方</h2>
+    <div class="graph-container">
+      <img src="graph.png" alt="グラフの図" class="graph-img" />
+      <ul class="graph-description">
+        <li>① x軸、y軸、原点(O)を書く。</li>
+        <li>② 関数の特徴を捉える。</li>
+        <li>③ 点と点をつなげる。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 三角関数の復習 -->
+  <section class="triangle-review">
+    <h2>三角関数の復習</h2>
+
+    <div class="image-row">
+      <img src="rot.png" alt="回転図" class="responsive-img" />
+      <img src="rot_calculation.png" alt="三角関数の関係" class="responsive-img" />
+    </div>
   
-    <h3>加法定理・差法定理</h3>
-  <div class="formula-block">
-    <div class="formula"><strong>sin(α ± β)</strong> = sinαcosβ ± cosαsinβ</div>
-    <div class="formula"><strong>cos(α ± β)</strong> = cosαcosβ ∓ sinαsinβ</div>
-    <div class="formula"><strong>tan(α ± β)</strong> = (tanα ± tanβ) / (1 ∓ tanαtanβ)</div>
-  </div>
+      <h3>加法定理・差法定理</h3>
+    <div class="formula-block">
+      <div class="formula"><strong>sin(α ± β)</strong> = sinαcosβ ± cosαsinβ</div>
+      <div class="formula"><strong>cos(α ± β)</strong> = cosαcosβ ∓ sinαsinβ</div>
+      <div class="formula"><strong>tan(α ± β)</strong> = (tanα ± tanβ) / (1 ∓ tanαtanβ)</div>
+    </div>
 
-  <h3>2倍角の公式</h3>
-  <div class="formula-block">
-    <div class="formula"><strong>sin2θ</strong> = 2sinθcosθ</div>
-    <div class="formula"><strong>cos2θ</strong> = cos²θ − sin²θ = 2cos²θ − 1 = 1 − 2sin²θ</div>
-    <div class="formula"><strong>tan2θ</strong> = 2tanθ / (1 − tan²θ)</div>
-  </div>
+    <h3>2倍角の公式</h3>
+    <div class="formula-block">
+      <div class="formula"><strong>sin2θ</strong> = 2sinθcosθ</div>
+      <div class="formula"><strong>cos2θ</strong> = cos²θ − sin²θ = 2cos²θ − 1 = 1 − 2sin²θ</div>
+      <div class="formula"><strong>tan2θ</strong> = 2tanθ / (1 − tan²θ)</div>
+    </div>
 
-  <h3>半角の公式</h3>
-  <div class="formula-block">
-    <div class="formula"><strong>sin²θ</strong> = (1 − cos2θ) / 2</div>
-    <div class="formula"><strong>cos²θ</strong> = (1 + cos2θ) / 2</div>
-    <div class="formula"><strong>tan²θ</strong> = (1 − cos2θ) / (1 + cos2θ)</div>
-  </div>
+    <h3>半角の公式</h3>
+    <div class="formula-block">
+      <div class="formula"><strong>sin²θ</strong> = (1 − cos2θ) / 2</div>
+      <div class="formula"><strong>cos²θ</strong> = (1 + cos2θ) / 2</div>
+     <div class="formula"><strong>tan²θ</strong> = (1 − cos2θ) / (1 + cos2θ)</div>
+    </div>
 
-  <h3>積和・和積の公式</h3>
-  <div class="formula-block">
-    <div class="formula"><strong>sinαsinβ</strong> = ½[cos(α − β) − cos(α + β)]</div>
-    <div class="formula"><strong>cosαcosβ</strong> = ½[cos(α − β) + cos(α + β)]</div>
-    <div class="formula"><strong>sinαcosβ</strong> = ½[sin(α + β) + sin(α − β)]</div>
-  </div>
+    <h3>積和・和積の公式</h3>
+    <div class="formula-block">
+      <div class="formula"><strong>sinαsinβ</strong> = ½[cos(α − β) − cos(α + β)]</div>
+      <div class="formula"><strong>cosαcosβ</strong> = ½[cos(α − β) + cos(α + β)]</div>
+      <div class="formula"><strong>sinαcosβ</strong> = ½[sin(α + β) + sin(α − β)]</div>
+    </div>
 
-  <h3>三角関数の合成</h3>
-  <div class="formula-block">
-    <div class="formula"><strong>a sinθ + b cosθ</strong> は以下の形に変形できる：</div>
-    <div class="formula"><strong>√(a² + b²) sin(θ + α)</strong></div>
-    <div class="formula">※ cosα = a / √(a² + b²), sinα = b / √(a² + b²)</div>
-  </div>
+    <h3>三角関数の合成</h3>
+    <div class="formula-block">
+      <div class="formula"><strong>a sinθ + b cosθ</strong> は以下の形に変形できる：</div>
+      <div class="formula"><strong>√(a² + b²) sin(θ + α)</strong></div>
+      <div class="formula">※ cosα = a / √(a² + b²), sinα = b / √(a² + b²)</div>
+    </div>
 
-  <h3>正弦定理・余弦定理</h3>
-  <div class="formula-block">
-    <div class="formula"><strong>正弦定理</strong>：a / sinA = b / sinB = c / sinC = 2R（Rは外接円の半径）</div>
-    <div class="formula"><strong>余弦定理</strong>：a² = b² + c² − 2bc cosA</div>
-  </div>
+    <h3>正弦定理・余弦定理</h3>
+    <div class="formula-block">
+      <div class="formula"><strong>正弦定理</strong>：a / sinA = b / sinB = c / sinC = 2R（Rは外接円の半径）</div>
+      <div class="formula"><strong>余弦定理</strong>：a² = b² + c² − 2bc cosA</div>
+    </div>
 
-</section>
+  </section>
 
-<!-- 単位円 -->
-<section class="unit-circle">
 
-  <h2>単位円</h2>
-  <div class="mode-buttons">
-    <button onclick="setMode('deg')">度数法</button>
-    <button onclick="setMode('rad')">弧度法</button>
-  </div>
+    </section>
 
-  <div class="unit-wrapper">
-  <canvas id="unitCircle" width="400" height="400"></canvas>
-  <div class="angle-buttons" id="angleButtons"></div>
-  <div class="tooltip" id="tooltip"></div>
-</div>
-</section>
+    <section class="unit-circle">
+      <h2>単位円</h2>
+      <div class="mode-buttons">
+        <button onclick="setMode('deg')">度数法</button>
+        <button onclick="setMode('rad')">弧度法</button>
+      </div>
 
-<script>
-const canvas = document.getElementById("unitCircle");
-const ctx = canvas.getContext("2d");
-const centerX = 200;
-const centerY = 200;
-const radius = 140;
-let mode = 'deg';
+      <div class="unit-wrapper">
+        <canvas id="unitCircle" width="400" height="400"></canvas>
+        <div class="angle-buttons" id="angleButtons"></div>
+        <div class="tooltip" id="tooltip"></div>
+      </div>
+    </section>
 
-const trigMap = {
-  0:   { sin: "0",     cos: "1",     tan: "0"     },
-  30:  { sin: "1/2",   cos: "√3/2",  tan: "1/√3"  },
-  45:  { sin: "√2/2",  cos: "√2/2",  tan: "1"     },
-  60:  { sin: "√3/2",  cos: "1/2",   tan: "√3"    },
-  90:  { sin: "1",     cos: "0",     tan: "∞"     },
-  120: { sin: "√3/2",  cos: "-1/2",  tan: "-√3"   },
-  135: { sin: "√2/2",  cos: "-√2/2", tan: "-1"    },
-  150: { sin: "1/2",   cos: "-√3/2", tan: "-1/√3" },
-  180: { sin: "0",     cos: "-1",    tan: "0"     },
-  210: { sin: "-1/2",  cos: "-√3/2", tan: "1/√3"  },
-  225: { sin: "-√2/2", cos: "-√2/2", tan: "1"     },
-  240: { sin: "-√3/2", cos: "-1/2",  tan: "√3"    },
-  270: { sin: "-1",    cos: "0",     tan: "∞"     },
-  300: { sin: "-√3/2", cos: "1/2",   tan: "-√3"   },
-  315: { sin: "-√2/2", cos: "√2/2",  tan: "-1"    },
-  330: { sin: "-1/2",  cos: "√3/2",  tan: "-1/√3" },
-};
+      <script>
+  const canvas = document.getElementById("unitCircle");
+  const ctx = canvas.getContext("2d");
+  const centerX = 200;
+  const centerY = 200;
+  const radius = 140;
+  let mode = 'deg';
 
-const angles = [
-  0, 30, 45, 60, 90, 120, 135, 150,
-  180, 210, 225, 240, 270, 300, 315, 330
-];
-
-function setMode(m) {
-  mode = m;
-  createButtons();
-  drawCircle();
-  hideTooltip();
-
-  const buttons = document.querySelectorAll(".mode-buttons button");
-  buttons.forEach(btn => {
-    if ((m === "deg" && btn.innerText.includes("度数")) ||
-        (m === "rad" && btn.innerText.includes("弧度"))) {
-      btn.classList.add("active-mode");
-    } else {
-      btn.classList.remove("active-mode");
-    }
-  });
-}
-
-function toRad(deg) {
-  return deg * Math.PI / 180;
-}
-
-function formatAngle(angle) {
-  if (mode === 'deg') return angle + "°";
-  const map = {
-    0: "0", 30: "\u03c0/6", 45: "\u03c0/4", 60: "\u03c0/3", 90: "\u03c0/2",
-    120: "2\u03c0/3", 135: "3\u03c0/4", 150: "5\u03c0/6", 180: "\u03c0",
-    210: "7\u03c0/6", 225: "5\u03c0/4", 240: "4\u03c0/3", 270: "3\u03c0/2",
-    300: "5\u03c0/3", 315: "7\u03c0/4", 330: "11\u03c0/6"
+  const trigMap = {
+    0:   { sin: "0",     cos: "1",     tan: "0"     },
+    30:  { sin: "1/2",   cos: "√3/2",  tan: "1/√3"  },
+    45:  { sin: "√2/2",  cos: "√2/2",  tan: "1"     },
+    60:  { sin: "√3/2",  cos: "1/2",   tan: "√3"    },
+    90:  { sin: "1",     cos: "0",     tan: "∞"     },
+    120: { sin: "√3/2",  cos: "-1/2",  tan: "-√3"   },
+    135: { sin: "√2/2",  cos: "-√2/2", tan: "-1"    },
+    150: { sin: "1/2",   cos: "-√3/2", tan: "-1/√3" },
+    180: { sin: "0",     cos: "-1",    tan: "0"     },
+    210: { sin: "-1/2",  cos: "-√3/2", tan: "1/√3"  },
+    225: { sin: "-√2/2", cos: "-√2/2", tan: "1"     },
+    240: { sin: "-√3/2", cos: "-1/2",  tan: "√3"    },
+    270: { sin: "-1",    cos: "0",     tan: "∞"     },
+    300: { sin: "-√3/2", cos: "1/2",   tan: "-√3"   },
+    315: { sin: "-√2/2", cos: "√2/2",  tan: "-1"    },
+    330: { sin: "-1/2",  cos: "√3/2",  tan: "-1/√3" },
   };
-  return map[angle] || angle;
-}
 
-function drawCircle(selectedAngle = null) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-  ctx.strokeStyle = "#aaa";
-  ctx.stroke();
+  const angles = [
+    0, 30, 45, 60, 90, 120, 135, 150,
+    180, 210, 225, 240, 270, 300, 315, 330
+  ];
 
-  ctx.beginPath();
-  ctx.moveTo(centerX - radius - 10, centerY);
-  ctx.lineTo(centerX + radius + 10, centerY);
-  ctx.moveTo(centerX, centerY - radius - 10);
-  ctx.lineTo(centerX, centerY + radius + 10);
-  ctx.strokeStyle = "#ccc";
-  ctx.stroke();
+  function setMode(m) {
+    mode = m;
+    createButtons();
+    drawCircle();
+    hideTooltip();
 
-  if (selectedAngle !== null) {
-    const rad = toRad(selectedAngle);
-    const x = centerX + radius * Math.cos(rad);
-    const y = centerY - radius * Math.sin(rad);
+    const buttons = document.querySelectorAll(".mode-buttons button");
+    buttons.forEach(btn => {
+      if ((m === "deg" && btn.innerText.includes("度数")) ||
+          (m === "rad" && btn.innerText.includes("弧度"))) {
+        btn.classList.add("active-mode");
+      } else {
+        btn.classList.remove("active-mode");
+      }
+    });
+  }
 
+  function toRad(deg) {
+    return deg * Math.PI / 180;
+  }
+
+  function formatAngle(angle) {
+    if (mode === 'deg') return angle + "°";
+    const map = {
+      0: "0", 30: "\u03c0/6", 45: "\u03c0/4", 60: "\u03c0/3", 90: "\u03c0/2",
+      120: "2\u03c0/3", 135: "3\u03c0/4", 150: "5\u03c0/6", 180: "\u03c0",
+      210: "7\u03c0/6", 225: "5\u03c0/4", 240: "4\u03c0/3", 270: "3\u03c0/2",
+      300: "5\u03c0/3", 315: "7\u03c0/4", 330: "11\u03c0/6"
+    };
+    return map[angle] || angle;
+  }
+
+  function drawCircle(selectedAngle = null) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.lineTo(x, y);
-    ctx.strokeStyle = "blue";
+    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+    ctx.strokeStyle = "#aaa";
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.arc(x, y, 5, 0, 2 * Math.PI);
-    ctx.fillStyle = "blue";
-    ctx.fill();
-  }
-}
+    ctx.moveTo(centerX - radius - 10, centerY);
+    ctx.lineTo(centerX + radius + 10, centerY);
+    ctx.moveTo(centerX, centerY - radius - 10);
+    ctx.lineTo(centerX, centerY + radius + 10);
+    ctx.strokeStyle = "#ccc";
+    ctx.stroke();
 
-let selectedAngle = null; // 現在選択中の角度
-let activeButton = null;  // 現在選択中のボタン
+    if (selectedAngle !== null) {
+      const rad = toRad(selectedAngle);
+      const x = centerX + radius * Math.cos(rad);
+      const y = centerY - radius * Math.sin(rad);
 
-function createButtons() {
-  const container = document.getElementById("angleButtons");
-  container.innerHTML = "";
-  angles.forEach(angle => {
-    const rad = toRad(angle);
-    const x = centerX + radius * Math.cos(rad);
-    const y = centerY - radius * Math.sin(rad);
+      ctx.beginPath();
+      ctx.moveTo(centerX, centerY);
+      ctx.lineTo(x, y);
+      ctx.strokeStyle = "blue";
+      ctx.stroke();
 
-    const btn = document.createElement("button");
-    btn.style.left = `${x}px`;
-    btn.style.top = `${y}px`;
-    btn.innerText = formatAngle(angle);
-    btn.onclick = () => toggleTooltip(angle, x, y, btn);
-    container.appendChild(btn);
-  });
-}
-
-function toggleTooltip(angle, x, y, btn) {
-  // 同じ角度なら非選択にする（トグル）
-  if (selectedAngle === angle) {
-    hideTooltip();
-    selectedAngle = null;
-    if (activeButton) {
-      activeButton.classList.remove("active-angle");
-      activeButton = null;
+      ctx.beginPath();
+      ctx.arc(x, y, 5, 0, 2 * Math.PI);
+      ctx.fillStyle = "blue";
+      ctx.fill();
     }
-    drawCircle(); // 線も消す
-    return;
   }
 
-  // 違う角度なら前のボタンのアクティブを外す
-  if (activeButton) activeButton.classList.remove("active-angle");
+  let selectedAngle = null; // 現在選択中の角度
+  let activeButton = null;  // 現在選択中のボタン
 
-  // 新しいアクティブに変更
-  selectedAngle = angle;
-  activeButton = btn;
-  activeButton.classList.add("active-angle");
+  function createButtons() {
+    const container = document.getElementById("angleButtons");
+    container.innerHTML = "";
+    angles.forEach(angle => {
+      const rad = toRad(angle);
+      const x = centerX + radius * Math.cos(rad);
+      const y = centerY - radius * Math.sin(rad);
 
-  drawCircle(angle);
-  const tooltip = document.getElementById("tooltip");
+      const btn = document.createElement("button");
+      btn.style.left = `${x}px`;
+      btn.style.top = `${y}px`;
+      btn.innerText = formatAngle(angle);
+      btn.onclick = () => toggleTooltip(angle, x, y, btn);
+      container.appendChild(btn);
+    });
+  }
 
-  const { sin, cos, tan } = trigMap[angle] || {
-    sin: Math.round(Math.sin(toRad(angle)) * 100) / 100,
-    cos: Math.round(Math.cos(toRad(angle)) * 100) / 100,
-    tan: (Math.abs(Math.cos(toRad(angle))) < 0.01) ? '∞' :
+  function toggleTooltip(angle, x, y, btn) {
+    // 同じ角度なら非選択にする（トグル）
+    if (selectedAngle === angle) {
+      hideTooltip();
+      selectedAngle = null;
+      if (activeButton) {
+        activeButton.classList.remove("active-angle");
+        activeButton = null;
+      }
+      drawCircle(); // 線も消す
+      return;
+    }
+
+    // 違う角度なら前のボタンのアクティブを外す
+    if (activeButton) activeButton.classList.remove("active-angle");
+
+    // 新しいアクティブに変更
+    selectedAngle = angle;
+    activeButton = btn;
+    activeButton.classList.add("active-angle");
+
+    drawCircle(angle);
+    const tooltip = document.getElementById("tooltip");
+
+    const { sin, cos, tan } = trigMap[angle] || {
+      sin: Math.round(Math.sin(toRad(angle)) * 100) / 100,
+      cos: Math.round(Math.cos(toRad(angle)) * 100) / 100,
+      tan: (Math.abs(Math.cos(toRad(angle))) < 0.01) ? '∞' :
          Math.round(Math.tan(toRad(angle)) * 100) / 100
-  };
+    };
 
-  tooltip.innerHTML = `
-    <strong>${formatAngle(angle)}</strong><br>
-    sin = ${sin}<br>
-    cos = ${cos}<br>
-    tan = ${tan}
-  `;
-  tooltip.style.left = `${x + 10}px`;
-  tooltip.style.top = `${y - 30}px`;
-  tooltip.style.display = 'block';
-}
+    tooltip.innerHTML = `
+      <strong>${formatAngle(angle)}</strong><br>
+      sin = ${sin}<br>
+      cos = ${cos}<br>
+      tan = ${tan}
+    `;
+    tooltip.style.left = `${x + 10}px`;
+    tooltip.style.top = `${y - 30}px`;
+    tooltip.style.display = 'block';
+  }
 
-function showTooltip(angle, x, y) {
-  drawCircle(angle);
-  const tooltip = document.getElementById("tooltip");
+  function showTooltip(angle, x, y) {
+    drawCircle(angle);
+    const tooltip = document.getElementById("tooltip");
 
-  const { sin, cos, tan } = trigMap[angle] || {
-    sin: Math.round(Math.sin(toRad(angle)) * 100) / 100,
-    cos: Math.round(Math.cos(toRad(angle)) * 100) / 100,
-    tan: (Math.abs(Math.cos(toRad(angle))) < 0.01) ? '∞' :
-         Math.round(Math.tan(toRad(angle)) * 100) / 100
-  };
+    const { sin, cos, tan } = trigMap[angle] || {
+      sin: Math.round(Math.sin(toRad(angle)) * 100) / 100,
+      cos: Math.round(Math.cos(toRad(angle)) * 100) / 100,
+      tan: (Math.abs(Math.cos(toRad(angle))) < 0.01) ? '∞' :
+          Math.round(Math.tan(toRad(angle)) * 100) / 100
+    };
 
-  tooltip.innerHTML = `
-    <strong>${formatAngle(angle)}</strong><br>
-    sin = ${sin}<br>
-    cos = ${cos}<br>
-    tan = ${tan}
-  `;
-  tooltip.style.left = `${x + 10}px`;
-  tooltip.style.top = `${y - 30}px`;
-  tooltip.style.display = 'block';
-}
+    tooltip.innerHTML = `
+      <strong>${formatAngle(angle)}</strong><br>
+      sin = ${sin}<br>
+      cos = ${cos}<br>
+      tan = ${tan}
+    `;
+    tooltip.style.left = `${x + 10}px`;
+    tooltip.style.top = `${y - 30}px`;
+    tooltip.style.display = 'block';
+  }
 
-function hideTooltip() {
+  function hideTooltip() {
   document.getElementById("tooltip").style.display = 'none';
 }
 
-setMode('deg'); // 初期表示
+  setMode('deg'); // 初期表示
 
 </script>
 
-<div class="question-link">
-  <button onclick="location.href='../問題/graph_quiz.html'">問題を解く</button>
-</div>
+    <div class="question-link">
+      <button onclick="location.href='../問題/graph_quiz.html'">問題を解く</button>
+    </div>
+  </section>
 
+  <!-- 他の単元セクション -->
+  <section id="section-exp" class="section" style="display:none;">
+    <h2>指数と対数</h2>
+    <p>これは指数と対数の仮コンテンツです。ここに解説を追加する予定です。</p>
+  </section>
 
-<div id="section-exp" class="section" style="display:none;">
-  <h2>指数と対数</h2>
-  <p>ここに内容を書く</p>
-</div>
+  <section id="section-number" class="section" style="display:none;">
+    <h2>数の定義</h2>
+    <p>これは数の定義の仮コンテンツです。実数や自然数などを扱います。</p>
+  </section>
 
-<div id="section-number" class="section" style="display:none;">
-  <h2>数の定義</h2>
-  <p>ここに内容を書く</p>
-</div>
+  <section id="section-diff" class="section" style="display:none;">
+    <h2>微分法の基礎</h2>
+    <p>これは微分法の仮解説です。f(x) の変化率などを取り扱います。</p>
+  </section>
 
-<!-- 以下同様に diff, int, calculus, vector, matrix -->
+  <section id="section-int" class="section" style="display:none;">
+    <h2>積分法の基礎</h2>
+    <p>これは積分法の仮説明です。面積計算や原始関数を学びます。</p>
+  </section>
 
-<script>
-function toggleMenu() {
-  const menu = document.getElementById("menuPanel");
-  menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
-}
+  <section id="section-calculus" class="section" style="display:none;">
+    <h2>微分積分</h2>
+    <p>これは微分積分の仮内容です。微分と積分のつながりを学びます。</p>
+  </section>
 
-function showSection(key) {
+  <section id="section-vector" class="section" style="display:none;">
+    <h2>ベクトルの基礎</h2>
+    <p>これはベクトルの仮内容です。成分表示や内積などを解説します。</p>
+  </section>
+
+  <section id="section-matrix" class="section" style="display:none;">
+    <h2>行列</h2>
+    <p>これは行列の仮内容です。加法・積・単位行列などの基礎を扱います。</p>
+  </section>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("menuPanel");
+      menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+
+    function showSection(key) {
+      // すべての section を非表示にする
   const allSections = document.querySelectorAll(".section");
   allSections.forEach(sec => sec.style.display = "none");
 
+  // 指定された section を表示する
   const target = document.getElementById("section-" + key);
-  if (target) target.style.display = "block";
+  if (target) {
+    target.style.display = "block";
+  }
 
-  // メニューを自動で閉じる
+  // メニューを閉じる
   document.getElementById("menuPanel").style.display = "none";
 }
-</script>
+  </script>
 
-<div class="back-button">
-  <button onclick="history.back()">← 戻る</button>
-</div>
+  <div class="back-button">
+    <button onclick="history.back()">← 戻る</button>
+  </div>
+
+  <div id="sorryModal" style="
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  ">
+    <div style="
+      position: relative;
+      background-color: #fff;
+      border: 2px solid #ccc;
+      border-radius: 16px;
+      padding: 30px 40px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      font-size: 18px;
+      color: #333;
+      max-width: 90%;
+      width: 400px;
+    ">
+      <button onclick="document.getElementById('sorryModal').style.display='none'" style="
+        position: absolute;
+        top: 10px;
+        right: 14px;
+        background: transparent;
+        border: none;
+        font-size: 36px;
+        font-weight: bold;
+        color: #333;
+        cursor: pointer;
+        line-height: 1;
+      ">&times;</button>
+      <p>
+        この科目はまだ作成中です。<br>
+        しばらくお待ちください！
+      </p>
+    </div>
+  </div>
 
 </body>
+
 </html>
