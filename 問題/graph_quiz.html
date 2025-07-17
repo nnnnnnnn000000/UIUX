@@ -10,12 +10,34 @@
 
   <div id="judge-mark"></div>
   
+<!-- ハンバーガーメニュー -->
+<div class="hamburger" onclick="toggleMenu()">☰</div>
+
+<div id="menu-overlay" class="menu-overlay">
+  <ul>
+    <li onclick="selectUnit('graph')">グラフと三角関数</li>
+    <li onclick="showComingSoon()">指数と対数</li>
+    <li onclick="showComingSoon()">数の定義</li>
+    <li onclick="showComingSoon()">微分法の基礎</li>
+    <li onclick="showComingSoon()">積分法の基礎</li>
+    <li onclick="showComingSoon()">微分積分</li>
+    <li onclick="showComingSoon()">ベクトルの基礎</li>
+    <li onclick="showComingSoon()">行列</li>
+  </ul>
+</div>
+
+<!-- セリフ表示 -->
+<div id="message-box" class="message-box" style="display: none;">
+  <p>この科目はまだ作成中です。しばらくお待ちください！</p>
+</div>
+
   <h2>三角関数：確認問題</h2>
   <div class="quiz-container">
     <p id="question"></p>
     <ul id="choices"></ul>
     <p id="result"></p>
     <div id="explanation" style="display:none;"></div>
+
     <button id="next-btn">次へ ▶</button>
   </div>
 

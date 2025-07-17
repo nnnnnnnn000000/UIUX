@@ -1,7 +1,13 @@
 // メニュー開閉
 function toggleMenu() {
   const menu = document.getElementById("menuPanel");
-  menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+  // style.display には空文字 "" もありうるので、getComputedStyleで実際の表示状態を取る
+  const currentDisplay = window.getComputedStyle(menu).display;
+  if (currentDisplay === "flex") {
+    menu.style.display = "none";
+  } else {
+    menu.style.display = "flex";
+  }
 }
 
 // 単元ごとのリンクとタイトル
@@ -36,7 +42,7 @@ function updateQuizLink(currentUnit) {
 }
 
 // セクション表示切替とタイトル変更
-function showSection(sectionName) {
+function showSection(sectionName, isInitial = false) {
   const sections = document.querySelectorAll(".section");
   sections.forEach(sec => sec.style.display = "none");
 
@@ -55,10 +61,41 @@ function showSection(sectionName) {
   }
    
   updateQuizLink(sectionName);
-  toggleMenu();
+
+  // 初期表示の時はtoggleMenuしない
+  if (!isInitial) {
+    toggleMenu();
+  }
 }
 
 // ページ初期表示：グラフ単元を見せる
 document.addEventListener("DOMContentLoaded", () => {
+  showSection("graph", true);  // 第二引数true＝初期表示
+});
+
+// ページ初期表示：グラフ単元を見せる
+document.addEventListener("DOMContentLoaded", () => {
   showSection("graph");
+});
+
+function toggleMenu() {
+  const menu = document.getElementById("menuPanel");
+  if (menu.style.display === "flex") {
+    menu.style.display = "none";
+  } else {
+    menu.style.display = "flex";
+  }
+}
+
+
+// 初期表示時はメニュー閉じてハンバーガー表示
+document.addEventListener("DOMContentLoaded", () => {
+  const menu = document.getElementById("menuPanel");
+  const hamburger = document.getElementById("hamburger");
+
+  menu.style.display = "none";
+  hamburger.style.display = "block";
+
+  // 必要に応じて初期表示単元をセット
+  showSection("graph", true);
 });

@@ -20,21 +20,21 @@
     <button onclick="history.back()">← 戻る</button>
   </div>
 
-  <!-- メニューボタン -->
-  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+<!-- ハンバーガーメニュー -->
+<button class="menu-toggle" onclick="toggleMenu()">☰</button>
 
-  <!-- メニューパネル -->
-  <div class="menu-panel" id="menuPanel">
-    <h3>単元選択</h3>
-    <button onclick="showSection('graph')">グラフと三角関数</button>
-    <button onclick="showSection('exp')">指数と対数</button>
-    <button onclick="showSection('number')">数の定義</button>
-    <button onclick="showSection('diff')">微分法の基礎</button>
-    <button onclick="showSection('int')">積分法の基礎</button>
-    <button onclick="showSection('calculus')">微分積分</button>
-    <button onclick="showSection('vector')">ベクトルの基礎</button>
-    <button onclick="showSection('matrix')">行列</button>
-  </div>
+<!-- メニューパネル -->
+<div class="menu-panel" id="menuPanel">
+  <h3>単元選択</h3>
+  <button onclick="selectUnit('graph')">グラフと三角関数</button>
+  <button onclick="showComingSoon()">指数と対数</button>
+  <button onclick="showComingSoon()">数の定義</button>
+  <button onclick="showComingSoon()">微分法の基礎</button>
+  <button onclick="showComingSoon()">積分法の基礎</button>
+  <button onclick="showComingSoon()">微分積分</button>
+  <button onclick="showComingSoon()">ベクトルの基礎</button>
+  <button onclick="showComingSoon()">行列</button>
+</div>
 
   <!-- ページタイトル（動的に変更される） -->
   <h1 id="unitTitle">グラフと三角関数</h1>

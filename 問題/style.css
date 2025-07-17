@@ -6,14 +6,79 @@ body {
   line-height: 1.7;
   color: #1a2e4a;
 }
+.hamburger {
+  font-size: 28px;
+  cursor: pointer;
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  user-select: none;
+
+  background-color: #2ecc71;
+  color: white;
+
+  width: 50px;       /* 縦横を同じに */
+  height:50px;      /* 縦のサイズに合わせる */
+  line-height: 40px; /* テキストを中央揃え */
+  text-align: center;
+
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease;
+}
+
+.hamburger:hover {
+  background-color: #27ae60;
+}
+
+/* メニューオーバーレイは縦リスト（単語帳的）で幅狭めに */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;        /* 左→右に変更 */
+  width: 240px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.96);
+  z-index: 999;
+  display: none;
+  padding-top: 80px;
+  text-align: left;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.12); /* 影は左側に */
+}
+
+/* 単元リストを縦並びに */
+.menu-overlay ul {
+  list-style: none;
+  padding: 0 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.menu-overlay li {
+  font-size: 1.2rem;
+  padding: 12px 10px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+  color: #1a2e4a;
+  border-radius: 6px;
+  transition: background-color 0.25s ease;
+}
+.menu-overlay li:hover {
+  background-color: #e6f0ff;
+}
 
 .quiz-container {
-  background: #ffffff;
-  padding: 30px 25px;
   max-width: 640px;
+  padding: 30px 25px;
   margin: 40px auto;
   border-radius: 12px;
   border: 1px solid #ccc;
+  background: white; /* 画像なしなので白背景に */
+  color: #1a2e4a;
+  position: relative;
 }
 
 h2 {
@@ -68,21 +133,8 @@ button:disabled {
   transform: none;
 }
 
-#result {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 18px;
-  font-weight: bold;
-}
-
 .correct { color: green; }
 .incorrect { color: red; }
-
-#next-btn {
-  display: none;
-  margin: 20px auto 0;
-  display: block;
-}
 
 #next-btn {
   display: none;
@@ -100,23 +152,6 @@ button:disabled {
 }
 #next-btn:hover {
   background-color: #1e4d90;
-}
-
-.back-button button {
-  padding: 10px 16px;
-  font-size: 14px;
-  background-color: white;
-  border: 1px solid #2a6ebb;
-  border-radius: 6px;
-  cursor: pointer;
-  color: #2a6ebb;
-  font-weight: bold;
-  box-shadow: 0 2px 6px white;
-}
-
-.back-button button:hover {
-  background-color: #2a6ebb;
-  color: white;
 }
 
 #explanation {
@@ -199,3 +234,47 @@ button:disabled {
     font-size: 4rem;
   }
 }
+
+.quiz-container.flip-out {
+  animation: flipOut 0.6s forwards;
+}
+
+.quiz-container.flip-in {
+  animation: flipIn 0.6s forwards;
+}
+
+@keyframes flipOut {
+  0% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotateY(90deg);
+    opacity: 0;
+  }
+}
+
+@keyframes flipIn {
+  0% {
+    transform: rotateY(90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+.back-button {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1000;
+}
+
+.back-button button {
+  padding: 8px 14px;
+  font-size: 16px;
+  border-radius: 6px;
+}
+

@@ -109,12 +109,26 @@ function showJudgeMark(symbol, isCorrect) {
 }
 
 function next() {
-  current++;
-  if (current < questions.length) {
-    render();
-  } else {
-    finish();
-  }
+  const container = document.querySelector('.quiz-container');
+  container.classList.add('flip-out');  // ページをめくる（表を折り曲げる）
+
+  setTimeout(() => {
+    container.classList.remove('flip-out');
+
+    current++;
+    if (current < questions.length) {
+      render();
+    } else {
+      finish();
+    }
+
+    container.classList.add('flip-in');  // 新しいページをめくる（裏から表に出す）
+
+    setTimeout(() => {
+      container.classList.remove('flip-in');
+    }, 600);
+  }, 600);
+  
 }
 
 function finish() {
@@ -192,6 +206,26 @@ function finish() {
   document.getElementById('go-progress').addEventListener('click', () => {
     window.location.href = '../progress.html';
   });
+}
+function toggleMenu() {
+  const overlay = document.getElementById('menu-overlay');
+  overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
+}
+
+function selectUnit(unitKey) {
+  // 今回はグラフと三角関数のみ
+  if (unitKey === 'graph') {
+    location.reload(); // 現在の問題に戻る
+  }
+}
+
+function showComingSoon() {
+  document.getElementById('menu-overlay').style.display = 'none';
+  const msg = document.getElementById('message-box');
+  msg.style.display = 'block';
+  setTimeout(() => {
+    msg.style.display = 'none';
+  }, 3000);
 }
 
 render();
