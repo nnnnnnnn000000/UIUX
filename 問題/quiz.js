@@ -7,14 +7,16 @@ let current = 0;
 let correct = 0;
 let total = 0;
 let incorrectQuestions = [];
+let mistakeTags = {};
 let retryIncorrectQuestions = [];
 let isRetryMode = false;
 
-const questionEl = document.getElementById('question');
-const choicesEl = document.getElementById('choices');
-const resultEl = document.getElementById('result');
-const nextBtn = document.getElementById('next-btn');
-const explanationEl = document.getElementById('explanation');
+// グローバル参照
+window.questionEl = document.getElementById('question');
+window.choicesEl = document.getElementById('choices');
+window.resultEl = document.getElementById('result');
+window.nextBtn = document.getElementById('next-btn');
+window.explanationEl = document.getElementById('explanation');
 
 nextBtn.addEventListener('click', next);
 
@@ -26,10 +28,22 @@ function saveProgress(subject, unit, correct, total, isRetryMode) {
   if (!stored.firstAttempt && !isRetryMode) {
     stored.firstAttempt = { correct, total, rate };
   }
-
   stored.finalAttempt = { correct, total, rate };
 
   localStorage.setItem(key, JSON.stringify(stored));
+}
+
+function saveMistakes() {
+  const mistakes = incorrectQuestions.map(q => q.text);
+  localStorage.setItem('quiz_mistakes', JSON.stringify(mistakes));
+}
+
+function loadMistakes() {
+  const mistakeTexts = JSON.parse(localStorage.getItem('quiz_mistakes') || '[]');
+  return questionsData.filter(q => mistakeTexts.includes(q.text)).map(q => ({
+    ...q,
+    explanation: explanationsData[questionsData.indexOf(q)] || ''
+  }));
 }
 
 function render() {
@@ -59,25 +73,39 @@ function check(isCorrect) {
   if (!isCorrect) {
     const target = isRetryMode ? retryIncorrectQuestions : incorrectQuestions;
     if (!target.includes(q)) target.push(q);
+    saveMistakes();
   }
+
+  const tag = q.tag || "未分類";
+  mistakeTags[tag] = (mistakeTags[tag] || 0) + 1;
+  localStorage.setItem("mistakeTags", JSON.stringify(mistakeTags));
 
   if (isCorrect) {
     correct++;
     resultEl.textContent = '正解！';
     resultEl.className = 'correct';
+    showJudgeMark('〇', true);
   } else {
     resultEl.textContent = '不正解…';
     resultEl.className = 'incorrect';
+    showJudgeMark('×', false);
   }
 
-  // 選択肢を全て無効化
   document.querySelectorAll('#choices button').forEach(btn => btn.disabled = true);
 
-  // 解説を表示
   explanationEl.textContent = q.explanation;
   explanationEl.style.display = 'block';
-
   nextBtn.style.display = 'block';
+}
+
+function showJudgeMark(symbol, isCorrect) {
+  const mark = document.getElementById('judge-mark');
+  mark.textContent = symbol;
+  mark.className = `show ${isCorrect ? 'correct' : 'incorrect'}`;
+  setTimeout(() => {
+    mark.className = '';
+    mark.textContent = '';
+  }, 800);
 }
 
 function next() {
@@ -103,24 +131,35 @@ function finish() {
     <div style="text-align:center; margin-top:20px;">
       <button id="retry">間違えた問題だけ再チャレンジ</button>
       <button id="go-explanation" style="margin-left: 10px;">この単元の解説を見る</button>
-      <button id="go-progress" style="margin-left: 10px;">進捗状況を見る</button>
+    </div>
+    <div style="text-align:center; margin-top:40px;">
+      <button id="go-progress">進捗状況を見る</button>
     </div>
   `;
 
   saveProgress("基礎数学", "グラフと三角関数", correct, total, isRetryMode);
 
   document.getElementById('retry').addEventListener('click', () => {
-    const retrySource = isRetryMode ? retryIncorrectQuestions : incorrectQuestions;
+    let retrySource = isRetryMode ? retryIncorrectQuestions : loadMistakes();
+
     if (retrySource.length === 0) {
       alert('再チャレンジする問題はありません！');
       return;
     }
 
-    questions = [...retrySource];
+    questions = retrySource.map(q => {
+      const index = questionsData.findIndex(orig => orig.text === q.text);
+      return {
+        ...questionsData[index],
+        explanation: explanationsData[index] || ''
+      };
+    });
+
     if (isRetryMode) {
       retryIncorrectQuestions = [];
     } else {
       incorrectQuestions = [];
+      saveMistakes();
     }
 
     isRetryMode = true;
@@ -128,7 +167,6 @@ function finish() {
     correct = 0;
     total = 0;
 
-    // HTMLを元に戻す
     container.innerHTML = `
       <p id="question"></p>
       <ul id="choices"></ul>
@@ -137,22 +175,20 @@ function finish() {
       <button id="next-btn">次へ ▶</button>
     `;
 
-    // 要素を再取得
-    questionEl = document.getElementById('question');
-    choicesEl = document.getElementById('choices');
-    resultEl = document.getElementById('result');
-    nextBtn = document.getElementById('next-btn');
-    explanationEl = document.getElementById('explanation');
+    // DOM 要素の再取得
+    window.questionEl = document.getElementById('question');
+    window.choicesEl = document.getElementById('choices');
+    window.resultEl = document.getElementById('result');
+    window.nextBtn = document.getElementById('next-btn');
+    window.explanationEl = document.getElementById('explanation');
 
     nextBtn.addEventListener('click', next);
-
     render();
   });
 
   document.getElementById('go-explanation').addEventListener('click', () => {
     window.location.href = '../解説/graph.html';
   });
-
   document.getElementById('go-progress').addEventListener('click', () => {
     window.location.href = '../progress.html';
   });

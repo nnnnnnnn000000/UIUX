@@ -8,16 +8,12 @@ body {
 }
 
 .quiz-container {
-  background: linear-gradient(145deg, #f0f8ff, #d6f0ff);
-  padding: 40px 35px;
+  background: #ffffff;
+  padding: 30px 25px;
   max-width: 640px;
   margin: 40px auto;
-  border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(42,110,187,0.15);
-  transition: box-shadow 0.3s ease;
-}
-.quiz-container:hover {
-  box-shadow: 0 12px 30px rgba(42,110,187,0.3);
+  border-radius: 12px;
+  border: 1px solid #ccc;
 }
 
 h2 {
@@ -133,4 +129,73 @@ button:disabled {
   color: #1f3d7a;
   line-height: 1.5;
   box-shadow: 0 1px 5px rgba(42,110,187,0.1);
+}
+
+#judge-mark {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 140px;
+  font-weight: bold;
+  opacity: 0;
+  pointer-events: none;
+  transition: none;
+  z-index: 10000;
+  user-select: none;
+  text-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+#judge-mark.show.correct {
+  color: #e63946; /* 赤 */
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  animation: fadeOutScale 0.8s forwards;
+}
+
+#judge-mark.show.incorrect {
+  color: #1d4ed8; /* 青 */
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  animation: fadeOutScale 0.8s forwards;
+}
+
+@keyframes fadeOutScale {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 600px) {
+  .quiz-container {
+    padding: 15px;
+  }
+
+  #question {
+    font-size: 1.1rem;
+  }
+
+  #choices li button {
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  #result {
+    font-size: 1rem;
+  }
+
+  #next-btn {
+    font-size: 0.95rem;
+    padding: 8px 16px;
+  }
+
+  #judge-mark {
+    font-size: 4rem;
+  }
 }
