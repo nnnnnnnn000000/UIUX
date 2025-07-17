@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>ホーム | 数学学習サイト</title>
+<link href="https://fonts.googleapis.com/css2?family=Yomogi&display=swap" rel="stylesheet">
   <style>
     :root {
       --blue: #e6f0ff;
@@ -12,13 +13,13 @@
       --mode-button-text: #2a6ebb;
     }
 
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 30px;
-      transition: background-color 0.3s ease;
-      background-color: var(--blue);
-    }
+body {
+  font-family: 'Yomogi', cursive;
+  margin: 0;
+  padding: 30px;
+  transition: background-color 0.3s ease;
+  background-color: var(--blue);
+}
 
     h1 {
       text-align: center;
@@ -138,29 +139,28 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
-.progress-btn-wrapper button {
-  padding: 12px 28px;
-  font-size: 16px;
-  font-weight: bold;
-  background-color: white;       /* 通常は白背景 */
-  color: #2a6ebb;                /* 青文字 */
-  border: 2px solid #2a6ebb;    /* 青の枠線 */
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-}
+    .progress-btn-wrapper button {
+      padding: 12px 28px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: white;
+      color: #2a6ebb;
+      border: 2px solid #2a6ebb;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
 
-.progress-btn-wrapper button:hover {
-  background-color: #2a6ebb;    /* ホバー時は青背景 */
-  color: white;                 /* ホバー時は白文字 */
-}
-
+    .progress-btn-wrapper button:hover {
+      background-color: #2a6ebb;
+      color: white;
+    }
   </style>
-
 </head>
+
 <body>
   <div class="header">
-    <div class="user-info"></div> <!-- ←ここは何も表示しない -->
+    <div class="user-info"></div>
     <button class="logout-btn" onclick="logout()">ログアウト</button>
   </div>
 
@@ -193,22 +193,18 @@
     </div>
   </div>
 
-
-
   <div style="text-align:center; margin-top: 30px;">
-      <div class="progress-btn-wrapper">
-        <button onclick="location.href='progress.html'">進捗状況を見る</button>
-      </div>
+    <div class="progress-btn-wrapper">
+      <button onclick="location.href='progress.html'">進捗状況を見る</button>
     </div>
+  </div>
 
   <script>
-
     let currentMode = '解説';
 
     function setMode(mode) {
       currentMode = mode;
       document.body.style.backgroundColor = (mode === '解説') ? 'var(--blue)' : 'var(--green)';
-
       const explanationBtn = document.getElementById('explanationBtn');
       const problemBtn = document.getElementById('problemBtn');
 
@@ -218,30 +214,25 @@
       }
     }
 
-function goToSubject(subject) {
+    function goToSubject(subject) {
+      const unimplementedSubjects = ['微分積分','統計学基礎','線形代数(基礎)','応用微分積分', '幾何学', '応用線形代数', '統計学'];
 
-  const unimplementedSubjects = ['微分積分','統計学基礎','線形代数(基礎)','応用微分積分', '幾何学', '応用線形代数', '統計学'];
+      if (subject !== '基礎数学') {
+        const modal = document.getElementById('sorryModal');
+        modal.style.display = 'flex';
+        return;
+      }
 
-  if (subject !== '基礎数学') {
-    const modal = document.getElementById('sorryModal');
-    modal.style.display = 'flex';
-    return;
-  }
-
-  let url = '';
-
-  if (subject === '基礎数学') {
-    if (currentMode === '解説') {
-      url = '解説/graph.html';
-    } else if (currentMode === '問題') {
-      url = '問題/graph_quiz.html';
+      let url = '';
+      if (subject === '基礎数学') {
+        if (currentMode === '解説') {
+          url = '解説/graph.html';
+        } else if (currentMode === '問題') {
+          url = '問題/graph_quiz.html';
+        }
+      }
+      window.location.href = url;
     }
-  } else {
-    url = `subject.html?subject=${encodeURIComponent(subject)}&mode=${encodeURIComponent(currentMode)}`;
-  }
-
-  window.location.href = url;
-}
 
     function logout() {
       localStorage.removeItem('loggedInUser');
@@ -249,55 +240,52 @@ function goToSubject(subject) {
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      if (emailSpan) {
-        emailSpan.textContent = userEmail;
-      }
       setMode('解説');
     });
-
-    
   </script>
+
+  <!-- モーダル -->
   <div id="sorryModal" style="
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-">
-  <div style="
-    position: relative;
-    background-color: #fff;
-    border: 2px solid #ccc;
-    border-radius: 16px;
-    padding: 30px 40px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    font-size: 18px;
-    color: #333;
-    max-width: 90%;
-    width: 400px;
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
   ">
-    <button onclick="document.getElementById('sorryModal').style.display='none'" style="
-      position: absolute;
-      top: 10px;
-      right: 14px;
-      background: transparent;
-      border: none;
-      font-size: 36px;
-      font-weight: bold;
+    <div style="
+      position: relative;
+      background-color: #fff;
+      border: 2px solid #ccc;
+      border-radius: 16px;
+      padding: 30px 40px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      font-size: 18px;
       color: #333;
-      cursor: pointer;
-      line-height: 1;
-    ">&times;</button>
-    <p>
-      この科目はまだ作成中です。<br>
-      しばらくお待ちください！
-    </p>
+      max-width: 90%;
+      width: 400px;
+    ">
+      <button onclick="document.getElementById('sorryModal').style.display='none'" style="
+        position: absolute;
+        top: 10px;
+        right: 14px;
+        background: transparent;
+        border: none;
+        font-size: 36px;
+        font-weight: bold;
+        color: #333;
+        cursor: pointer;
+        line-height: 1;
+      ">&times;</button>
+      <p>
+        この科目はまだ作成中です。<br>
+        しばらくお待ちください！
+      </p>
+    </div>
   </div>
-</div>
 </body>
 </html>
