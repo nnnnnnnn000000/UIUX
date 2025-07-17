@@ -30,21 +30,43 @@ body {
 
 .hamburger:hover {
   background-color: #27ae60;
+  box-shadow: 0 4px 10px rgba(42, 110, 187, 0.4);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
+  cursor: pointer;
+  user-select: none;
+}
+.hamburger:hover {
+  background-color: #27ae60;
+  box-shadow: 0 6px 16px rgba(30, 77, 144, 0.6);
+}
+.hamburger:active {
+  transform: scale(0.95);
 }
 
 /* メニューオーバーレイは縦リスト（単語帳的）で幅狭めに */
 .menu-overlay {
   position: fixed;
   top: 0;
-  right: 0;        /* 左→右に変更 */
-  width: 240px;
+  right: 0;
+  width: 250px;
   height: 100%;
   background: rgba(255, 255, 255, 0.96);
   z-index: 999;
   display: none;
-  padding-top: 80px;
+  padding-top: 100px;
   text-align: left;
   box-shadow: -2px 0 8px rgba(0,0,0,0.12); /* 影は左側に */
+}
+
+.menu-title {
+  position: fixed;
+  top: 20px;
+  right: 100px;
+  z-index: 1001;
+  font-size: 1.4em;
+  font-weight: bold;
+  margin: 20px 0 10px 20px;
+  color: #2a4232;
 }
 
 /* 単元リストを縦並びに */
