@@ -220,11 +220,15 @@ function selectUnit(unitKey) {
 }
 
 function showComingSoon() {
+  // メニューを閉じる
   document.getElementById('menu-overlay').style.display = 'none';
-  const msg = document.getElementById('message-box');
-  msg.style.display = 'block';
+
+  // トースト表示処理
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+
   setTimeout(() => {
-    msg.style.display = 'none';
+    toast.classList.remove('show');
   }, 3000);
 }
 
