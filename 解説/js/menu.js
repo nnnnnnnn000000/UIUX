@@ -53,7 +53,7 @@ function showSection(sectionName) {
   if (title) {
     title.textContent = sectionTitles[sectionName] || "未実装の単元";
   }
-
+   
   updateQuizLink(sectionName);
   toggleMenu();
 }

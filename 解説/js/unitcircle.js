@@ -57,14 +57,14 @@ function formatFraction(text) {
 }
 
 function formatAngle(angle) {
-  if (mode === 'deg') return angle + "°";
-  const map = {
+  const raw = (mode === 'deg') ? `${angle}°` : {
     0: "0", 30: "π/6", 45: "π/4", 60: "π/3", 90: "π/2",
     120: "2π/3", 135: "3π/4", 150: "5π/6", 180: "π",
     210: "7π/6", 225: "5π/4", 240: "4π/3", 270: "3π/2",
     300: "5π/3", 315: "7π/4", 330: "11π/6"
-  };
-  return formatFraction(map[angle] || angle);
+  }[angle] || angle;
+
+  return `<span class="angle-label">${formatFraction(raw)}</span>`;
 }
 
 function drawCircle(selectedAngle = null) {
@@ -148,12 +148,12 @@ function toggleTooltip(angle, x, y, btn) {
          Math.round(Math.tan(toRad(angle)) * 100) / 100
   };
 
-  tooltip.innerHTML = `
-    <strong>${formatFraction(formatAngle(angle))}</strong><br>
-    sin = ${formatFraction(sin)}<br>
-    cos = ${formatFraction(cos)}<br>
-    tan = ${formatFraction(tan)}
-  `;
+tooltip.innerHTML = `
+  <div class="angle-label">${formatAngle(angle)}</div>
+  <div class="tooltip-line"><strong>sin:</strong> ${formatFraction(sin)}</div>
+  <div class="tooltip-line"><strong>cos:</strong> ${formatFraction(cos)}</div>
+  <div class="tooltip-line"><strong>tan:</strong> ${formatFraction(tan)}</div>
+`;
   tooltip.style.left = `${x + 10}px`;
   tooltip.style.top = `${y - 30}px`;
   tooltip.style.display = 'block';

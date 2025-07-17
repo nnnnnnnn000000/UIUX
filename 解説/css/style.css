@@ -380,4 +380,24 @@ canvas {
 .angle-label {
   font-family: 'Kosugi Maru', 'Noto Sans JP', sans-serif;
   font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+/* フォーミュラ表示行（sin = ...） */
+.formula-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  font-family: 'Kosugi Maru', 'Noto Sans JP', sans-serif;
+  margin: 2px 0;
+}
+
+.tooltip-line {
+  margin-top: 4px;
+  text-align: left;
+  white-space: nowrap;
 }
