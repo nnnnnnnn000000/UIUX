@@ -2,11 +2,11 @@
 function toggleMenu() {
   const menu = document.getElementById("menuPanel");
   const isOpen = window.getComputedStyle(menu).display !== "none";
-  menu.style.display = isOpen ? "none" : "flex";  // CSSに合わせてflexやblockにして
+  menu.style.display = isOpen ? "none" : "flex";  
 }
 
 // メニューの単元ボタンから呼ばれる
-function selectUnit(unit) {
+function selectUnit(unit, skipMenuClose = false) {
   const graphSection = document.getElementById("section-graph");
   const sorrySection = document.getElementById("section-sorry");
   const titleElem = document.getElementById("unitTitle");
@@ -19,18 +19,19 @@ function selectUnit(unit) {
     if (toQuiz) toQuiz.href = "../問題/graph_quiz.html";
   } else {
     graphSection.style.display = "none";
-    sorrySection.style.display = "block";  // ← これで表示されるはず
+    sorrySection.style.display = "block";
     titleElem.textContent = "未実装の単元";
     if (toQuiz) toQuiz.href = "#";
   }
 
-  toggleMenu(); // メニュー閉じる
+  // ✅ 初回読み込み時にはメニューを閉じない（開かない）
+  if (!skipMenuClose) {
+    toggleMenu(); // 通常時のみ
+  }
 }
 
-// ページ読み込み時に初期表示設定
+// ✅ ページ読み込み時に初期表示設定（メニューを開かないように）
 document.addEventListener("DOMContentLoaded", () => {
-  // メニュー閉じる
-  document.getElementById("menuPanel").style.display = "none";
-  // 初期表示はグラフ単元を表示
-  selectUnit("graph");
+  document.getElementById("menuPanel").style.display = "none"; // 念のため
+  selectUnit("graph", true); // ← 初回のみ true を渡す
 });
