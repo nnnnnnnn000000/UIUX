@@ -106,10 +106,13 @@ let activeButton = null;
 function createButtons() {
   const container = document.getElementById("angleButtons");
   container.innerHTML = "";
+
+  const buttonRadius = radius + 30; // 🎯 描画円よりも外側に配置
+
   angles.forEach(angle => {
     const rad = toRad(angle);
-    const x = centerX + radius * Math.cos(rad);
-    const y = centerY - radius * Math.sin(rad);
+    const x = centerX + buttonRadius * Math.cos(rad);
+    const y = centerY - buttonRadius * Math.sin(rad);
 
     const btn = document.createElement("button");
     btn.style.left = `${x}px`;

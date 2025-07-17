@@ -34,4 +34,5 @@ function selectUnit(unit, skipMenuClose = false) {
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("menuPanel").style.display = "none"; // 念のため
   selectUnit("graph", true); // ← 初回のみ true を渡す
+  drawUnitCircle();
 });
